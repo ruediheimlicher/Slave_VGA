@@ -37,6 +37,7 @@ volatile uint16_t loopcount1=0;
 
 volatile uint16_t                manuellcounter=0; // Countr fuer Timeout
 volatile uint8_t                 programmstatus=0x00;
+volatile uint16_t                prellcounter=0; // Countr fuer Prellen, in timer0 OVF incr
 
 void delay_ms(unsigned int ms)
 /* delay for a minimum of <ms> */
@@ -112,9 +113,9 @@ void setHomeCentral(void)
    
    
    
-   setFeld(9,47,9,52,40,1,""); // Daten
-   vga_command("f,9");
-   vga_puts("Data");
+   setFeld(9,47,3,52,46,1,"Data"); // Daten
+  // vga_command("f,9");
+  // vga_puts("Data");
    
    
    
@@ -319,6 +320,41 @@ void slaveinit(void)
     OSZIDDR |= (1<<OSZIB);
     OSZIPORT |= (1<<OSZIB);
     */
+}
+
+void timer0() // Analoganzeige
+{
+   //----------------------------------------------------
+   // Set up timer 0
+   //----------------------------------------------------
+ 
+   
+   TCCR0B = 0;
+   TCCR0A = 0;
+   
+   //TCCR0B|=(1<<CS10);
+   //TCCR0A |= (1<<COM0A1);   // set OC0A at bottom, clear OC0A on compare match
+   TCCR0B |= 1<<CS02; // /1024
+   TCCR0B |= 1<<CS00;
+   
+   OCR0A=0;
+   TIMSK0 |= (1<<TOIE0);
+   
+   
+}
+
+ISR(TIMER0_OVF_vect)
+{
+   
+   if (tastaturstatus & (1<<1)) // Taste gestartet
+   {
+      prellcounter++;
+   }
+   else
+   {
+      prellcounter=0;
+   }
+    
 }
 
 
@@ -644,6 +680,7 @@ int main (void)
    linecounter=0;
    uint8_t lastrand=rand();
    //srand(1);
+   //timer0();
    sei();
    uint8_t incounter=0;
    /*
@@ -692,7 +729,8 @@ int main (void)
                   //lcd_putint(incounter);
                   //lcd_puthex(out_enddaten);
                   
-                  cli();
+              //
+            cli();
                   //delay_ms(100);
                   
                   
@@ -703,14 +741,24 @@ int main (void)
                   //if (!(in_startdaten == 0xC0))
                   {
                      newline();
-                     vga_puts("in Webserver");
+                     vga_puts("Daten vom Webserver:");
                      vga_putch(' ');
-                     vga_puts("start: ");
+                     switch (in_startdaten)
+                     {
+                        case 0xC0:
+                        {
+                           vga_puts("DATATASK: ");
+
+                        }break;
+                           
+                     }// switch in_startdate
                      char in_string[4];
                      int2hexstring(in_startdaten, (char*)&in_string);
                      vga_puts(in_string);
+                     
                      vga_putch(' ');
-                     vga_puts("lb: ");
+                     newline();
+                     vga_puts("Startadresse lb: ");
                      int2hexstring(in_lbdaten, (char*)&in_string);
                      vga_puts(in_string);
                      vga_putch(' ');
@@ -759,14 +807,15 @@ int main (void)
                   }
                   
                   newline();
-                  vga_puts("out Master");
+                  vga_puts("Daten vom  Master");
                   vga_putch(' ');
-                  vga_puts("start: ");
+                  vga_puts("TASK: ");
                   char out_string[4];
                   int2hexstring(out_startdaten, (char*)&out_string);
                   vga_puts(out_string);
                   vga_putch(' ');
-                  vga_puts("lb: ");
+                  newline();
+                  vga_puts("Startadresse lb: ");
                   int2hexstring(out_lbdaten, (char*)&out_string);
                   vga_puts(out_string);
                   vga_putch(' ');
@@ -800,8 +849,11 @@ int main (void)
                   // Ausgang Master
                   
                   //   Zeit im Titelbalken angeben
-                  uint8_t stunde = (outbuffer[0] & 0x1F); // Stunde, Bit 0-4
-                  uint8_t minute = (outbuffer[1] & 0x3F); // Minute, Bit 0-5
+                  //uint8_t stunde = (outbuffer[0] & 0x1F); // Stunde, Bit 0-4
+                  //uint8_t minute = (outbuffer[1] & 0x3F); // Minute, Bit 0-5
+                  uint8_t stunde = (outbuffer[46] ); // Stunde, Bit 0-4
+                  uint8_t minute = (outbuffer[47] ); // Minute, Bit 0-5
+                  
                   vga_command("f,2");
                   vga_command("f,1");
                   gotoxy(90,0);
@@ -881,7 +933,7 @@ int main (void)
 #pragma mark Tastatur
          //goto NEXT;
          {
-            cli();
+           // cli();
             
             {
                Tastenwert=(uint8_t)(adc_read(TASTATURKANAL)>>2);
@@ -889,9 +941,24 @@ int main (void)
                //lcd_gotoxy(12,1);
                //lcd_puts("TW:\0");
                //lcd_putint(Tastenwert);
-               if (Tastenwert>5) // ca Minimalwert der Matrix
+               if ((Tastenwert>5))// && (! (tastaturstatus & (1<<1)) )) //
                {
-                  tastaturstatus |= (1<<1);
+                  if ( tastaturstatus & (1<<1)) // Taste war schon gedrückt, Aktion starten
+                  {
+                     
+                     TastaturCount++; // Zaehlen
+                     if (TastaturCount > 60)
+                     {
+                        tastaturstatus |= (1<<7);
+                     }
+                  }
+                  else
+                  {
+                     tastaturstatus |= (1<<1);
+                     
+                  }
+                  
+                  
                   //			wdt_reset();
                   /*
                    0:
@@ -908,34 +975,37 @@ int main (void)
                    11:
                    12: Ebene höher
                    */
-                  TastaturCount++;
-                  if (tastaturstatus & (1<<1))
-                  {
-                     
-                  }
                   
-                  if (TastaturCount>=80)	//	Prellen
+                 
+                  if (prellcounter > 100)
                   {
-                     tastaturstatus &= ~(1<<1);
+ 
+                     //tastaturstatus &= ~(1<<1);
+                     prellcounter=0;
+                  }
+                   if (tastaturstatus & (1<<7))	//	Taste erkannt
+                  {
+                     tastaturstatus &= ~(1<<7);
                      Taste=Tastenwahl(Tastenwert);
-                     lcd_gotoxy(0,1);
-                     lcd_puts("T:\0");
+ 
+                     lcd_gotoxy(16,1);
+                     lcd_putc('T');
                      //
-                     lcd_putc(' ');
+                     //lcd_putc(' ');
                      lcd_putint(Tastenwert);
-                     lcd_putc(' ');
+                     //lcd_putc(' ');
                      if (Taste >=0)
                      {
-                        lcd_putint2(Taste);
+                        //lcd_putint2(Taste);
                      }
                      else
                      {
-                        lcd_putc('*');
+                        //lcd_putc('*');
                      }
                      
                      //lcd_gotoxy(14,1);
                      
-                     Taste = 2;
+                     //Taste = 2;
                      //lcd_putint(linecounter);
                      //lcd_putc(' ');
                      //lcd_putint((uint8_t)rand()%40);
@@ -947,7 +1017,7 @@ int main (void)
                            if (uartstatus & (1<<UART_STOP)) // UART gestopt
                            {
                               vga_command("f,1");
-                              gotoxy(70,0);
+                              gotoxy(60,0);
                               vga_command("f,1");
                               vga_puts("    ");
                               uartstatus &= ~(1<<UART_STOP);
@@ -955,7 +1025,7 @@ int main (void)
                            else
                            {
                               vga_command("f,1");
-                              gotoxy(70,0);
+                              gotoxy(60,0);
                               vga_command("f,1");
                               vga_puts("STOP");
                               uartstatus |= (1<<UART_STOP);
@@ -1120,7 +1190,7 @@ int main (void)
                      //newline();
                      linecounter++;
                      TastaturCount=0;
-                     
+                     tastaturstatus &= ~(1<<1);
                   }
                   
                } // if Tastenwert

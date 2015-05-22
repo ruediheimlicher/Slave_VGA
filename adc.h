@@ -17,7 +17,7 @@ struct adcwert16 {
 #define ADC_PIN      PINC
 
 
-#define TASTATURKANAL 4
+#define TASTATURKANAL 0
 
 extern struct adcwert16 ADCWert16;
 

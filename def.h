@@ -103,9 +103,9 @@ uint16_t loopCount2=0;
 
 volatile uint8_t					Programmstatus=0x00;
 uint8_t Tastenwert=0;
-uint8_t TastaturCount=0;
+volatile uint16_t TastaturCount=0;
 uint8_t Tastaturabfrage=0;
-uint8_t tastaturstatus=0;
+volatile uint8_t tastaturstatus=0;
 
 uint8_t Taste = 0;
 volatile uint16_t		Manuellcounter=0; // Counter fuer Timeout
