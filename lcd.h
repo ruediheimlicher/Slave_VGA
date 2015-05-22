@@ -32,25 +32,12 @@
 
 #include <inttypes.h>
 
-/* AVR port and pins connected to '164 and/or LCD */
-/*
-#define LCD_PORT                PORTB
-#define LCD_DDR						DDRB
-
-
-#define LCD_RSDS_PIN            5
-#define LCD_ENABLE_PIN          6
-#define LCD_CLOCK_PIN           7
-*/
-
-
- // myAVR
  #define LCD_PORT                PORTC
  #define LCD_DDR						DDRC
 
-#define LCD_RSDS_PIN            0
-#define LCD_ENABLE_PIN          1
-#define LCD_CLOCK_PIN           2
+#define LCD_RSDS_PIN            3
+#define LCD_ENABLE_PIN          4
+#define LCD_CLOCK_PIN           5
 
 #define LCD_BACKLIGHT_PIN       7
 
@@ -82,7 +69,7 @@
 #define LCD_FUNCTION_8x2        0x38   /* 5x7 characters, 2 line display */
 
 //Fleury
-#define LCD_LINES           4     /**< number of visible lines of the display */
+#define LCD_LINES           2     /**< number of visible lines of the display */
 #define LCD_DISP_LENGTH    20     /**< visibles characters per line of the display */
 #define LCD_START_LINE1  0x00     /**< DDRAM address of first char of line 1 */
 #define LCD_START_LINE2  0x40     /**< DDRAM address of first char of line 2 */
@@ -95,7 +82,7 @@
 
 /* F_CPU is used by delay routines from util/delay.h. May already be defined */
 #ifndef F_CPU
-#define F_CPU 7328000UL  /* 1 MHz CPU clock */
+#define F_CPU 1000000UL  /* 1 MHz CPU clock */
 #endif
 
 /* functions */
@@ -114,6 +101,7 @@ void lcd_puts(const char *s);
 void lcd_putint(uint8_t zahl);
 void lcd_putint1(uint8_t zahl);
 void lcd_putint2(uint8_t zahl);
+void lcd_putint12(uint16_t zahl);
 void lcd_putint16(uint16_t zahl);
 void lcd_puthex(uint8_t zahl);
 void lcd_cls(void);

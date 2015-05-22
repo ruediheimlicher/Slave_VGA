@@ -76,6 +76,8 @@ int16_t adc_read(uint8_t derKanal)
    uint8_t low;
    
    ADCSRA = (1<<ADEN) | ADC_PRESCALER;             // enable ADC
+   //ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1) | (1<<ADPS0);    // Frequenzvorteiler auf 128 setzen und ADC aktivieren
+
    //ADCSRB = (1<<ADHSM) | (derKanal & 0x20);             // high speed mode
    ADMUX = (1<<REFS0) | (derKanal & 0x1F);                    // configure mux input
    ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS0) | (1<<ADSC); // start the conversion

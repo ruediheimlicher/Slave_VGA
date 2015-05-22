@@ -119,23 +119,6 @@ volatile uint8_t								complement=0;		//Zweiercomplement
 static volatile uint8_t						bitpos=0xFF;
 static volatile uint8_t						startbitpos=0;
 
-/*
-
-#define OSZIPORT				PORTA
-#define OSZIPORTDDR			DDRA
-#define OSZIPORTPIN			PINA
-#define PULSA					0
-
-#ifndef OSZIALO
-#define OSZIALO OSZIAPORT &= ~(1<<PULSA)
-#endif
-#ifndef OSZIAHI
-#define OSZIAHI OSZIAPORT |= (1<<PULSA)
-#endif
-#ifndef OSZIATOG
-#define OSZIATOG OSZIAPORT ^= (1<<PULSA)
-#endif
-*/
 
 #define SPI_CONTROL_DDR			DDRD
 #define SPI_CONTROL_PORT		PORTD

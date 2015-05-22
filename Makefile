@@ -52,6 +52,7 @@ MCU = atmega328p
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
 F_CPU = 7372000
+#F_CPU = 8000000
 
 
 # Output format. (can be srec, ihex, binary)

@@ -19,12 +19,12 @@
 
 // TWI
 
-#define TWI_PORT		PORTC
-#define TWI_PIN		PINC
-#define TWI_DDR		DDRC
+//#define TWI_PORT		PORTC
+//#define TWI_PIN		PINC
+//#define TWI_DDR		DDRC
 
-#define SDAPIN       4
-#define SCLPIN       5
+//#define SDAPIN       4
+//#define SCLPIN       5
 #define TWI_ERR_BIT				7
 
 
@@ -46,7 +46,10 @@
 #define TASTE0          236
 #define TASTER          248
 #define TASTATURPORT    PORTC
-#define TASTATURPIN		3
+#define TASTATURDDR     DDRC
+#define TASTATURPIN		0
+#define TASTATURKANAL		0
+
 
 
 // Manuell
@@ -64,6 +67,9 @@
 #define ADC_PRESCALER ((1<<ADPS2) | (1<<ADPS1))
 #elif F_CPU == 8000000L
 #define ADC_PRESCALER ((1<<ADPS2) | (1<<ADPS0))
+#elif F_CPU == 7372000L
+#define ADC_PRESCALER ((1<<ADPS2) | (1<<ADPS0))
+
 #elif F_CPU == 4000000L
 #define ADC_PRESCALER ((1<<ADPS2))
 #elif F_CPU == 2000000L
@@ -77,12 +83,12 @@
 
 
 // OSZI
-/*
+
  #define OSZIPORT     PORTD
  #define OSZIDDR      DDRD
- #define OSZIA        5
- #define OSZIB        6
- */
+ #define OSZIA        0
+ #define OSZIB        0
+
 
 #define OSZIA_HI  OSZIPORT |= (1<< OSZIA)
 #define OSZIA_LO  OSZIPORT &= ~(1<< OSZIA)
