@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "vga.h"
 #define FOSC   7372000
 
 #define BAUD 9600
@@ -139,13 +140,12 @@ void vga_leerschlag(uint8_t leer)
    }
 }
 
-uint8_t gotoxy(uint8_t x, uint8_t y)
+uint8_t vga_gotoxy(uint8_t x, uint8_t y)
 {
    if (x>MAX_X || y>MAX_Y)
    {
       return 1;
    }
-   
    vga_putch('^');
    vga_putch('[');
    vga_putch('p');

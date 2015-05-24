@@ -81,6 +81,9 @@
 #endif
 
 
+
+
+
 // Strings
 // http://www.atmel.com/webdoc/AVRLibcReferenceManual/pgmspace_1pgmspace_strings.html
 //
@@ -103,6 +106,36 @@ PGM_P const raum_table[] PROGMEM =
    string_5,
    string_6,
    string_7
+
+};
+const char heizung_0[] PROGMEM = "Vorlauf  :";
+const char heizung_1[] PROGMEM = "Ruecklauf:";
+const char heizung_2[] PROGMEM = "Aussen   :";
+const char heizung_3[] PROGMEM = "Code:";
+const char heizung_4[] PROGMEM = "Brenner:";
+const char heizung_5[] PROGMEM = "Pos";
+const char heizung_6[] PROGMEM = "Rinne  :";
+const char heizung_7[] PROGMEM = "T/-";
+const char heizung_8[] PROGMEM = "T/N";
+const char heizung_9[] PROGMEM = "T/n";
+const char heizung_10[] PROGMEM = "t/-";
+const char heizung_11[] PROGMEM = "OFF";
+
+PGM_P const heizung_table[] PROGMEM =
+{
+   heizung_0,
+   heizung_1,
+   heizung_2,
+   heizung_3,
+   heizung_4,
+   heizung_5,
+   heizung_6,
+   heizung_7,
+   heizung_8,
+   heizung_9,
+   heizung_10,
+   heizung_11
+
 
 };
 
