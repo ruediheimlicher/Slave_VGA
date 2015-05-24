@@ -81,6 +81,30 @@
 #endif
 
 
+// Strings
+// http://www.atmel.com/webdoc/AVRLibcReferenceManual/pgmspace_1pgmspace_strings.html
+//
+const char string_0[] PROGMEM = "Heizung";
+const char string_1[] PROGMEM = "Werkstatt";
+const char string_2[] PROGMEM = "WoZi";
+const char string_3[] PROGMEM = "Buero";
+const char string_4[] PROGMEM = "Labor";
+const char string_5[] PROGMEM = "OG 1";
+const char string_6[] PROGMEM = "OG 2";
+const char string_7[] PROGMEM = "Estrich";
+
+PGM_P const raum_table[] PROGMEM =
+{
+   string_0,
+   string_1,
+   string_2,
+   string_3,
+   string_4,
+   string_5,
+   string_6,
+   string_7
+
+};
 
 // OSZI
 
