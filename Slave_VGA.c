@@ -11,7 +11,7 @@
 #include <avr/io.h>
 #include <avr/delay.h>
 #include <avr/interrupt.h>
-//#include <avr/pgmspace.h>
+#include <avr/pgmspace.h>
 //#include <avr/sleep.h>
 #include <inttypes.h>
 //#define F_CPU 4000000UL  // 4 MHz
@@ -68,47 +68,58 @@ void setHomeCentral(void)
    vga_command("f,1");
    vga_puts("Home Central Rueti");
    
-   
+   char buffer[10];
+
    posy+= 3;
-   setFeld(2,0,posy,46,6,1,""); // Heizung
+   setFeld(2,0,posy,46,9,1,""); // Heizung
    vga_command("f,2");
-   vga_puts("Heizung");
-   
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
+   vga_puts(buffer);
    //newline();
    
    
-   posy+= 6;
-   setFeld(3,0,posy,46,5,1,""); // Werkstatt
+   posy+= 9;
+   setFeld(3,0,posy,46,7,1,""); // Werkstatt
    vga_command("f,3");
-   vga_puts("Werkstatt");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
+   vga_puts(buffer);
    
-   posy+= 5;
-   setFeld(4,0,posy,46,5,1,""); // WoZi
+   posy+= 7;
+   setFeld(4,0,posy,46,6,1,""); // WoZi
    vga_command("f,4");
-   vga_puts("WoZi");
-   newline();
-   vga_puts("Temperatur innen: ");
+   //vga_puts("WoZi");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
+   vga_puts(buffer);
    
    
-   posy+= 5;
-   setFeld(5,0,posy,46,5,1,""); // Buero
+   posy+= 6;
+   setFeld(5,0,posy,46,4,1,""); // Buero
    vga_command("f,5");
-   vga_puts("Buero");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[3])));
+   vga_puts(buffer);
    
-   posy+= 5;
-   setFeld(6,0,posy,46,5,1,""); // Labor
+   //vga_puts("Buero");
+   
+   posy+= 4;
+   setFeld(6,0,posy,46,4,1,""); // Labor
    vga_command("f,6");
-   vga_puts("Labor");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[4])));
+   vga_puts(buffer);
+   //vga_puts("Labor");
    
-   posy+= 5;
-   setFeld(7,0,posy,46,5,1,""); // OG
+   posy+= 4;
+   setFeld(7,0,posy,46,4,1,""); // OG
    vga_command("f,7");
-   vga_puts("OG");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[5])));
+   vga_puts(buffer);
+   //vga_puts("OG");
    
-   posy+= 5;
-   setFeld(8,0,posy,46,15,1,""); // Estrich
+   posy+= 4;
+   setFeld(8,0,posy,46,9,1,""); // Estrich
    vga_command("f,8");
-   vga_puts("Estrich");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
+   vga_puts(buffer);
+   //vga_puts("Estrich");
    
    
    
@@ -180,14 +191,14 @@ void setEstrich(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boi
    
    vga_puts("Vorlauf  :"); // Datapos (0,10)
    vga_putint_right(vorlauf);
-   vga_leerschlag(3);
+   vga_leerschlag(2);
    
    vga_puts("Boiler O:"); // Datapos (0,10)
    vga_putint_right(boilero);
    vga_leerschlag(2);
    
    
-   vga_puts("Pumpe  :"); // Datapos (0,10)
+   vga_puts("Pumpe  : "); // Datapos (0,10)
    if (status & 0x08) // Bit 3
    {
       vga_puts(" ON");
@@ -201,14 +212,14 @@ void setEstrich(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boi
    
    vga_puts("Ruecklauf:");// Datapos (0,45)
    vga_putint_right(ruecklauf);
-   vga_leerschlag(3);
+   vga_leerschlag(2);
    
    vga_puts("Boiler M:");// Datapos (0,25)
    vga_putint_right(boilerm);
    vga_leerschlag(2);
    
    
-   vga_puts("Elektro:");// Datapos (0,25)
+   vga_puts("Elektro: ");// Datapos (0,25)
    if (status & 0x10) // Bit 4
    {
       vga_puts(" ON");
@@ -223,17 +234,16 @@ void setEstrich(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boi
    
    vga_puts("Kollektor:");// Datapos (0,25)
    vga_putint_right(kollektor);
-   vga_leerschlag(3);
+   vga_leerschlag(2);
    
    
    vga_puts("Boiler U:");// Datapos (0,25)
    vga_putint_right(boileru);
-   vga_leerschlag(3);
+   vga_leerschlag(2);
    
-   /*
-    vga_puts("Rinne :  ");// Datapos (0,45)
-    
-    if (status & 0xC0)
+   
+    vga_puts("Alarm  : ");// Datapos (0,45)
+    if (status & 0x80)
     {
     vga_puts(" ON");
     }
@@ -241,7 +251,7 @@ void setEstrich(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boi
     {
     vga_puts("OFF");
     }
-    */
+   
 }
 
 
@@ -750,6 +760,7 @@ int main (void)
                            vga_puts("DATATASK: ");
 
                         }break;
+                           
                            
                      }// switch in_startdate
                      char in_string[4];
