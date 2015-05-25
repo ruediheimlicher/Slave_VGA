@@ -24,3 +24,5 @@
 #define OG1_Y       21
 #define OG2_Y       25
 #define ESTRICH_Y    29
+
+#define DATA_FENSTER "d,6"

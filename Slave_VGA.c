@@ -181,8 +181,8 @@ void setHomeCentralblank(void)
    posy= 3;
    setFeld(2,0,posy,46,9,1,""); // Heizung
    vga_command("f,2");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
-   vga_puts(buffer);
+   //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
+   //vga_puts(buffer);
    //newline();
    
    
@@ -223,21 +223,21 @@ void setHomeCentralblank(void)
    vga_puts(buffer);
    //vga_puts("OG");
    */
-   posy = 45;
-   setFeld(5,0,posy,100,4,1,""); // Estrich
+   posy = 41;
+   setFeld(5,48,posy,51,9,1,""); // Estrich
    vga_command("f,5");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
-   vga_puts(buffer);
-   vga_leerschlag(2);
-   vga_putint(posy);
+   //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
+   //vga_puts(buffer);
+   //vga_leerschlag(2);
+   //vga_putint(posy);
    //vga_puts("Estrich");
    
    // window,left,top,width,height,border,title
 
    
    
-   setFeld(6,47,3,52,38,1,"Data"); // Daten
-  // vga_command("f,9");
+   setFeld(6,48,3,51,38,1,"Data"); // Daten
+   vga_command("f,6");
   // vga_puts("Data");
    
    
@@ -645,10 +645,10 @@ void setStatusFenster(void)
 
 void setRaumData(void)
 {
-   setHeizung();
-   setWerkstatt();
-   setWoZi();
-   setBuero();
+//   setHeizung();
+//   setWerkstatt();
+ //  setWoZi();
+//   setBuero();
 //  setLabor();
 //   setOG1();
 //   setOG2();
@@ -1219,7 +1219,7 @@ int main (void)
                   
                   
                   
-                  vga_command("f,3");
+                  vga_command("f,6");
                   newline();
                   //if (!(in_startdaten == 0xC0))
                   {

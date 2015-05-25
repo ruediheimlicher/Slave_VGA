@@ -86,6 +86,9 @@
 
 // Strings
 // http://www.atmel.com/webdoc/AVRLibcReferenceManual/pgmspace_1pgmspace_strings.html
+
+
+
 //
 // Wochentag
 const char tag_0[] PROGMEM = "MO";
