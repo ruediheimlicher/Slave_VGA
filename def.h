@@ -87,6 +87,29 @@
 // Strings
 // http://www.atmel.com/webdoc/AVRLibcReferenceManual/pgmspace_1pgmspace_strings.html
 //
+// Wochentag
+const char tag_0[] PROGMEM = "MO";
+const char tag_1[] PROGMEM = "DI";
+const char tag_2[] PROGMEM = "MI";
+const char tag_3[] PROGMEM = "DO";
+const char tag_4[] PROGMEM = "FR";
+const char tag_5[] PROGMEM = "SA";
+const char tag_6[] PROGMEM = "SO";
+
+PGM_P const tag_table[] PROGMEM =
+{
+   tag_0,
+   tag_1,
+   tag_2,
+   tag_3,
+   tag_4,
+   tag_5,
+   tag_6
+   
+   
+};
+
+
 const char string_0[] PROGMEM = "Heizung";
 const char string_1[] PROGMEM = "Werkstatt";
 const char string_2[] PROGMEM = "WoZi";
@@ -115,11 +138,7 @@ const char heizung_3[] PROGMEM = "Code:";
 const char heizung_4[] PROGMEM = "Brenner:";
 const char heizung_5[] PROGMEM = "Pos";
 const char heizung_6[] PROGMEM = "Rinne  :";
-const char heizung_7[] PROGMEM = "T/-";
-const char heizung_8[] PROGMEM = "T/N";
-const char heizung_9[] PROGMEM = "T/n";
-const char heizung_10[] PROGMEM = "t/-";
-const char heizung_11[] PROGMEM = "OFF";
+
 
 PGM_P const heizung_table[] PROGMEM =
 {
@@ -129,15 +148,87 @@ PGM_P const heizung_table[] PROGMEM =
    heizung_3,
    heizung_4,
    heizung_5,
-   heizung_6,
-   heizung_7,
-   heizung_8,
-   heizung_9,
-   heizung_10,
-   heizung_11
+   heizung_6
 
 
 };
+
+
+const char pos_0[] PROGMEM = "OFF";
+const char pos_1[] PROGMEM = "F/-";
+const char pos_2[] PROGMEM = "F/R";
+const char pos_3[] PROGMEM = "R/R";
+const char pos_4[] PROGMEM = "V/V";
+const char pos_5[] PROGMEM = "Hnd";
+
+PGM_P const pos_table[] PROGMEM =
+{
+   pos_0,
+   pos_1,
+   pos_2,
+   pos_3,
+   pos_4,
+   pos_5
+   
+};
+
+const char WS_0[] PROGMEM = "Lampe:";
+const char WS_1[] PROGMEM = "Ofen :";
+const char WS_2[] PROGMEM = "Temp :";
+const char WS_3[] PROGMEM = "ABC  :";
+const char WS_4[] PROGMEM = "A. W :";
+const char WS_5[] PROGMEM = "A.TK :";
+
+PGM_P const WS_table[] PROGMEM =
+{
+   WS_0,
+   WS_1,
+   WS_2,
+   WS_3,
+   WS_4,
+   WS_5
+};
+
+const char WOZI_0[] PROGMEM = "Lampe:";
+const char WOZI_1[] PROGMEM = "Innen:";
+const char WOZI_2[] PROGMEM = "Rad :";
+const char WOZI_3[] PROGMEM = "ABC  :";
+
+PGM_P const WOZI_table[] PROGMEM =
+{
+   WOZI_0,
+   WOZI_1,
+   WOZI_2,
+   WOZI_3
+};
+
+
+
+const char ES_0[] PROGMEM = "Vorlauf  :";
+const char ES_1[] PROGMEM = "Ruecklauf:";
+const char ES_2[] PROGMEM = "Boiler U:";
+const char ES_3[] PROGMEM = "Boiler M:";
+const char ES_4[] PROGMEM = "Boiler O:";
+const char ES_5[] PROGMEM = "Kollektor:";
+const char ES_6[] PROGMEM = "Pumpe  :";
+const char ES_7[] PROGMEM = "Elektro:";
+const char ES_8[] PROGMEM = "Alarm  :";
+
+PGM_P const ES_table[] PROGMEM =
+{
+   ES_0,
+   ES_1,
+   ES_2,
+   ES_3,
+   ES_4,
+   ES_5,
+   ES_6,
+   ES_7,
+   ES_8
+};
+
+
+
 
 // OSZI
 

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-
+#include <ctype.h>
 /*
  
  Funktion zur Umwandlung einer vorzeichenlosen 32 Bit Zahl in einen String
@@ -65,7 +65,7 @@ void int2hexstring(uint8_t zahl,char* hexstring)
 {
 	//char string[5];
 	//char string[3];
-	uint8_t i,l,h;                             // schleifenzähler
+	uint8_t l,h;                             // schleifenzähler
 	
 	hexstring[2]='\0';                       // String Terminator
 	l=(zahl % 16);

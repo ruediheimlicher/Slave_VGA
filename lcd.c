@@ -50,6 +50,8 @@
 #include <inttypes.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 extern char* wochentag[];
 /*

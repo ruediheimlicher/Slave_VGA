@@ -9,13 +9,13 @@
 
 
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
 //#include <avr/sleep.h>
 #include <inttypes.h>
 //#define F_CPU 4000000UL  // 4 MHz
-#include <avr/delay.h>
+//#include <avr/delay.h>
 #include <avr/wdt.h>
 
 #include "def.h"
@@ -55,11 +55,7 @@ void delay_ms(unsigned int ms)
 
 void setHomeCentral(void)
 {
-   
-   //char header[]  = {"w,1,0,0,100,3,1,"};                 // no title
-   
-   //char footer[]  = {"w,5,0,49,100,1,0,"};
-   // char window2[] = {"w,2,0,3,60,40,1,Data Webserver"};
+   // window,left,top,width,height,border,title
    vga_command("r");
    //delay_ms(1000);
    uint8_t posy=0;
@@ -68,71 +64,25 @@ void setHomeCentral(void)
    vga_command("f,1");
    vga_puts("Home Central Rueti");
    
-   char buffer[10];
+   char buffer[12] = {};
    
    posy+= 3;
-   setFeld(2,0,posy,46,40,1,""); // Heizung
+   setFeld(2,0,posy,48,38,1,""); // Heizung
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
    vga_puts(buffer);
    //newline();
    
-   
-   /*
-   posy+= 9;
-   setFeld(3,0,posy,46,7,0,""); // Werkstatt
+ 
+   setFeld(3,48,3,51,38,1,"Data"); // Daten
    vga_command("f,3");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
-   vga_puts(buffer);
-   
-   posy+= 7;
-   setFeld(4,0,posy,46,6,0,""); // WoZi
-   vga_command("f,4");
-   //vga_puts("WoZi");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
-   vga_puts(buffer);
+   delay_ms(2);
    
    
-   posy+= 6;
-   setFeld(5,0,posy,46,4,0,""); // Buero
-   vga_command("f,5");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[3])));
-   vga_puts(buffer);
-   
-   //vga_puts("Buero");
-   
-   posy+= 4;
-   setFeld(6,0,posy,46,4,1,""); // Labor
-   vga_command("f,6");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[4])));
-   vga_puts(buffer);
-   //vga_puts("Labor");
-   
-   posy+= 4;
-   setFeld(7,0,posy,46,4,1,""); // OG
-   vga_command("f,7");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[5])));
-   vga_puts(buffer);
-   //vga_puts("OG");
-   
-   posy+= 4;
-   setFeld(8,0,posy,46,9,1,""); // Estrich
-   vga_command("f,8");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
-   vga_puts(buffer);
-   //vga_puts("Estrich");
-   
-   */
-   
-   
-   setFeld(3,47,3,52,46,1,"Data"); // Daten
-   // vga_command("f,9");
-   // vga_puts("Data");
-   
-   
-   
-}
+   setFeld(4,0,44,51,3,1,"Data"); // Daten
+    vga_command("f,4");
 
+}
 void setHomeCentral0(void)
 {
    
@@ -148,8 +98,8 @@ void setHomeCentral0(void)
    vga_command("f,1");
    vga_puts("Home Central Rueti");
    
-   char buffer[10];
-
+   char buffer[12] = {};
+   
    posy+= 3;
    setFeld(2,0,posy,46,9,1,""); // Heizung
    vga_command("f,2");
@@ -194,17 +144,99 @@ void setHomeCentral0(void)
    vga_puts(buffer);
    //vga_puts("OG");
    
-   posy+= 4;
-   setFeld(8,0,posy,46,9,1,""); // Estrich
+   posy+= 12;
+   posy = 45;
+   setFeld(8,0,posy,100,4,1,""); // Estrich
    vga_command("f,8");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
    vga_puts(buffer);
+   vga_leerschlag(2);
+   vga_putint(posy);
    //vga_puts("Estrich");
    
    
    
    
-   setFeld(9,47,3,52,46,1,"Data"); // Daten
+   setFeld(9,47,3,52,26,1,"Data"); // Daten
+   // vga_command("f,9");
+   // vga_puts("Data");
+   
+   
+   
+}
+
+void setHomeCentralblank(void)
+{
+   
+   vga_command("r");
+   //delay_ms(1000);
+   uint8_t posy=0;
+   //vga_command(header);       // Create header
+   setFeld(1,0,0,100,3,1,"");
+   vga_command("f,1");
+   vga_puts("Home Central Rueti");
+   
+   char buffer[12] = {};
+
+   posy= 3;
+   setFeld(2,0,posy,46,9,1,""); // Heizung
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
+   vga_puts(buffer);
+   //newline();
+   
+   
+   posy = 12 ;
+   setFeld(3,0,posy,46,7,1,""); // Werkstatt
+   vga_command("f,3");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
+   vga_puts(buffer);
+   
+   posy= 19;
+   setFeld(4,0,posy,46,6,1,""); // WoZi
+   vga_command("f,4");
+   //vga_puts("WoZi");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
+   vga_puts(buffer);
+   
+   /*
+   posy= 25;
+   setFeld(5,0,posy,46,4,1,""); // Buero
+   vga_command("f,5");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[3])));
+   vga_puts(buffer);
+   */
+   //vga_puts("Buero");
+   /*
+   posy= 29;
+   setFeld(6,0,posy,46,4,1,""); // Labor
+   vga_command("f,6");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[4])));
+   vga_puts(buffer);
+   //vga_puts("Labor");
+   */
+   /*
+   posy = 33;
+   setFeld(7,0,posy,46,4,1,""); // OG
+   vga_command("f,7");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[5])));
+   vga_puts(buffer);
+   //vga_puts("OG");
+   */
+   posy = 45;
+   setFeld(5,0,posy,100,4,1,""); // Estrich
+   vga_command("f,5");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
+   vga_puts(buffer);
+   vga_leerschlag(2);
+   vga_putint(posy);
+   //vga_puts("Estrich");
+   
+   // window,left,top,width,height,border,title
+
+   
+   
+   setFeld(6,47,3,52,38,1,"Data"); // Daten
   // vga_command("f,9");
   // vga_puts("Data");
    
@@ -212,17 +244,17 @@ void setHomeCentral0(void)
    
 }
 
-void setRaumData(void)
+void setHeizung(void)
 {
    char buffer[12]={};
-
+   
    uint8_t pos_y = HEIZUNG_Y;
    vga_gotoxy(TAB0,pos_y);
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[0])));
    vga_puts(buffer);
    vga_putint_right(outbuffer[2]/2);
-
+   
    // Mode
    vga_gotoxy(TAB1,pos_y);
    vga_command("f,2");
@@ -237,13 +269,13 @@ void setRaumData(void)
       vga_puts(" ON");
    }
    //vga_leerschlag(3);
-
+   
    // Brenner
    vga_gotoxy(TAB2,pos_y);
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[4])));
    vga_puts(buffer);
-
+   
    if (outbuffer[5] & 0x04)
    {
       vga_puts("OFF");
@@ -252,8 +284,8 @@ void setRaumData(void)
    {
       vga_puts(" ON");
    }
- 
-
+   
+   
    //2. Zeile
    pos_y++;
    
@@ -270,10 +302,15 @@ void setRaumData(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[5])));
    vga_puts(buffer);
-   vga_putint_right(1);
+   vga_putint_right(outbuffer[0]%4);
    //vga_leerschlag(3);
-
+   
    // Beschreibung
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(pos_table[outbuffer[0]%4])));
+   vga_puts(buffer);
+   
    
    // dritte Zeile
    pos_y++;
@@ -284,7 +321,7 @@ void setRaumData(void)
    vga_puts(buffer);
    vga_tempbis99(outbuffer[4]/2-0x20,tempbuffer);
    vga_puts(tempbuffer);
-
+   
    // Rinne
    vga_gotoxy(TAB2,pos_y);
    vga_command("f,2");
@@ -299,25 +336,27 @@ void setRaumData(void)
       vga_puts("OFF");
    }
 
-
-   /*
-    vga_puts("Brenner:");
-    vga_command("p,15,2");
-    vga_puts("Mode:");
-    vga_command("p,30,2");
-    vga_puts("Rinne:");
-    */
 }
 
-void setHeizung(uint8_t vorlauf, uint8_t ruecklauf, uint8_t aussen, uint8_t status)
+void setWerkstatt(void)
 {
+   char buffer[12]={};
+   // Werkstatt
+   vga_command("f,2");
+   uint8_t pos_y = WERKSTATT_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
+   vga_puts(buffer);
    
-   vga_puts("Vorlauf  :"); // Datapos (0,10)
-   vga_putint_right(vorlauf);
-   vga_leerschlag(3);
-   
-   vga_puts("Brenner:"); // Datapos (0,10)
-   if (status & 0x04)
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WS_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
    {
       vga_puts("OFF");
    }
@@ -325,53 +364,68 @@ void setHeizung(uint8_t vorlauf, uint8_t ruecklauf, uint8_t aussen, uint8_t stat
    {
       vga_puts(" ON");
    }
-   vga_leerschlag(3);
    
+   // Ofen
    
-   vga_puts("Aussen:");// Datapos (0,45)
-   char tempbuffer[8]={};
-   vga_tempbis99(aussen-0x20,tempbuffer);
-   vga_puts(tempbuffer);
-   newline();
-   
-   vga_puts("Ruecklauf:");// Datapos (0,25)
-   vga_putint_right(ruecklauf);
-   vga_leerschlag(3);
-   
-   
-   vga_puts("Mode:   ");// Datapos (0,25)
-   vga_putint_right(1);
-   vga_leerschlag(3);
-   
-   vga_puts("Rinne :  ");// Datapos (0,45)
-   
-   if (status & 0xC0)
-   {
-      vga_puts(" ON");
-   }
-   else
+   vga_gotoxy(TAB1,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WS_table[1])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
    {
       vga_puts("OFF");
    }
+   else
+   {
+      vga_puts(" ON");
+   }
    
-   /*
-    vga_puts("Brenner:");
-    vga_command("p,15,2");
-    vga_puts("Mode:");
-    vga_command("p,30,2");
-    vga_puts("Rinne:");
-    */
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WS_table[2])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
+
+   
+   //Zeile 2
+   // Wasser
+   pos_y++;
+   vga_gotoxy(TAB1,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WS_table[4])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("  OK");
+   }
+   else
+   {
+      vga_puts("Alarm");
+   }
+
+   
 }
 
-void setHeizung0(uint8_t vorlauf, uint8_t ruecklauf, uint8_t aussen, uint8_t status)
+
+void setWoZi(void)
 {
+   char buffer[12]={};
+   // WoZi
+   vga_command("f,2");
+   uint8_t pos_y = WOZI_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
+   vga_puts(buffer);
    
-   vga_puts("Vorlauf  :"); // Datapos (0,10)
-   vga_putint_right(vorlauf);
-   vga_leerschlag(3);
-   
-   vga_puts("Brenner:"); // Datapos (0,10)
-   if (status & 0x04)
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
    {
       vga_puts("OFF");
    }
@@ -379,45 +433,231 @@ void setHeizung0(uint8_t vorlauf, uint8_t ruecklauf, uint8_t aussen, uint8_t sta
    {
       vga_puts(" ON");
    }
-   vga_leerschlag(3);
+   
+  // Innen
+   
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
    
    
-   vga_puts("Aussen:");// Datapos (0,45)
-   char tempbuffer[8]={};
-   vga_tempbis99(aussen-0x20,tempbuffer);
-   vga_puts(tempbuffer);
-   newline();
-   
-   vga_puts("Ruecklauf:");// Datapos (0,25)
-   vga_putint_right(ruecklauf);
-   vga_leerschlag(3);
-   
-   
-   vga_puts("Mode:   ");// Datapos (0,25)
-   vga_putint_right(1);
-   vga_leerschlag(3);
-   
-   vga_puts("Rinne :  ");// Datapos (0,45)
-   
-   if (status & 0xC0)
+   //Zeile 2
+   // Radiator
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[2])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
    {
-      vga_puts(" ON");
+      vga_puts("  OK");
    }
    else
    {
-      vga_puts("OFF");
+      vga_puts("Alarm");
    }
    
-   /*
-    vga_puts("Brenner:");
-    vga_command("p,15,2");
-    vga_puts("Mode:");
-    vga_command("p,30,2");
-    vga_puts("Rinne:");
-    */
+   
 }
 
-void setEstrich(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boilerm, uint8_t boilero, uint8_t kollektor, uint8_t status)
+void setBuero(void)
+{
+   char buffer[12]={};
+   // Buero
+   vga_command("f,2");
+   uint8_t pos_y = BUERO_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[3])));
+   vga_puts(buffer);
+
+}
+
+void setLabor(void)
+{
+   char buffer[12]={};
+   // Labor
+   vga_command("f,2");
+   uint8_t pos_y = LABOR_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[4])));
+   vga_puts(buffer);
+   
+}
+
+void setOG1(void)
+{
+   char buffer[12]={};
+   // OG 1
+   vga_command("f,2");
+   uint8_t pos_y = OG1_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[5])));
+   vga_puts(buffer);
+   
+}
+
+void setOG2(void)
+{
+   char buffer[12]={};
+   // OG 2
+   vga_command("f,2");
+   uint8_t pos_y = OG2_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
+   vga_puts(buffer);
+   
+}
+
+void setEstrich(void)
+{
+   char buffer[12]={};
+   // Estrich
+   vga_command("f,2");
+   uint8_t pos_y = ESTRICH_Y;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[7])));
+   vga_puts(buffer);
+   
+   //Zeile 1
+   pos_y++;
+   // Vorlauf
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[0])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[9]/2);
+
+   // Boiler O
+   vga_gotoxy(TAB1,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[4])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[4]/2);
+
+   // Pumpe
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[6])));
+   vga_puts(buffer);
+  
+   if (outbuffer[15] & 0x04)
+   {
+      vga_puts(" ON");
+   }
+   else
+   {
+      vga_puts("OFF");
+   }
+   
+    // Zeile 2
+   pos_y++;
+   // Ruecklauf
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[9]/2);
+   
+   // Boiler M
+   vga_gotoxy(TAB1,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[3])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[4]/2);
+
+   // Elektro
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[7])));
+   vga_puts(buffer);
+   
+   if (outbuffer[15] & 0x04)
+   {
+      vga_puts(" ON");
+   }
+   else
+   {
+      vga_puts("OFF");
+   }
+   
+   // Kollektor
+   
+   
+   // Boiler U
+   
+   
+   //Alarm
+   // Zeile 3
+   pos_y++;
+   // Kollektor
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[5])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[9]/2);
+   
+   // Boiler U
+   vga_gotoxy(TAB1,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[2])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[4]/2);
+   
+   // Alarm
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(ES_table[8])));
+   vga_puts(buffer);
+   
+   if (outbuffer[15] & 0x04)
+   {
+      vga_puts(" ON");
+   }
+   else
+   {
+      vga_puts("OFF");
+   }
+
+
+}
+
+void setStatusFenster(void)
+{
+    char buffer[12]={};
+   uint8_t posy = 45;
+   setFeld(8,0,posy,100,4,1,""); // Estrich
+   vga_command("f,8");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
+   vga_puts(buffer);
+   vga_leerschlag(2);
+   vga_putint(posy);
+
+}
+
+
+
+void setRaumData(void)
+{
+   setHeizung();
+   setWerkstatt();
+   setWoZi();
+   setBuero();
+//  setLabor();
+//   setOG1();
+//   setOG2();
+//   setEstrich();
+   
+ }
+
+
+void setEstrich0(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boilerm, uint8_t boilero, uint8_t kollektor, uint8_t status)
 {
    
    vga_puts("Vorlauf  :"); // Datapos (0,10)
@@ -563,7 +803,7 @@ void slaveinit(void)
     */
 }
 
-void timer0() // Analoganzeige
+void timer0(void) // Analoganzeige
 {
    //----------------------------------------------------
    // Set up timer 0
@@ -915,7 +1155,7 @@ int main (void)
    
    // vga_start();
    
-   setHomeCentral();
+   setHomeCentralblank();
    vga_command("f,1");
    startcounter = 0;
    linecounter=0;
@@ -932,6 +1172,8 @@ int main (void)
     lcd_putc(65+i);
     }
     */
+   
+   
    
 #pragma mark while
    while (1)
@@ -1024,15 +1266,16 @@ int main (void)
                            newline();
                            //if (i)
                            {
-                              vga_putch(' ');
+                              //vga_putch(' ');
                               //vga_putch(' ');
                            }
                         }
                         {
+                           vga_putch(' ');
                            char data_string[4];
                            int2hexstring(inbuffer[i], (char*)&data_string);
                            vga_puts(data_string);
-                           vga_putch(' ');
+                           
                            
                         }
                      }
@@ -1075,15 +1318,16 @@ int main (void)
                         //if (i)
                         {
                            //vga_putch(' ');
-                           vga_putch(' ');
+                           //vga_putch(' ');
                         }
                         
                      }
                      {
+                        vga_putch(' ');
                         char data_string[4];
                         int2hexstring(outbuffer[i], (char*)&data_string);
                         vga_puts(data_string);
-                        vga_putch(' ');
+                        
                         
                      }
                   }
@@ -1096,7 +1340,18 @@ int main (void)
                   uint8_t stunde = (outbuffer[46] ); // Stunde, Bit 0-4
                   uint8_t minute = (outbuffer[47] ); // Minute, Bit 0-5
                   
+                  // Tag ausgeben
+                  
+                  vga_command("f,1");
+                  vga_gotoxy(85,0);
+                  vga_command("f,1");
+                  //vga_putint2(outbuffer[45]);
+                  char buffer[4];
+                  strcpy_P(buffer,(PGM_P)pgm_read_word(&(tag_table[outbuffer[45]-1])));
+                  vga_puts(buffer);
+
                   // Zeit ausgeben
+                  
                   vga_command("f,1");
                   vga_gotoxy(90,0);
                   vga_command("f,1");
@@ -1108,7 +1363,7 @@ int main (void)
                   vga_command("p,0,1");
                   vga_command("f,2");
                //   setHeizung(outbuffer[2]/2,outbuffer[3]/2,outbuffer[4],outbuffer[5]);
-                  setRaumData();
+               //   setRaumData();
  /*
                   vga_command("f,2");
   
