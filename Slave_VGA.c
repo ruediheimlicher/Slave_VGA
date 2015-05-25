@@ -181,15 +181,15 @@ void setHomeCentralblank(void)
    char buffer[12] = {};
 
    posy= 3;
-   setFeld(2,0,posy,tab,9,1,""); // Heizung
+   setFeld(2,0,posy,tab,38,1,""); // Heizung
    vga_command("f,2");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
-   vga_puts(buffer);
+   //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
+   //vga_puts(buffer);
    //newline();
    
    
-   posy = 12 ;
-   setFeld(3,0,posy,tab,7,1,""); // Status
+   posy = 41;
+   setFeld(3,0,posy,tab,9,1,""); // Status
    vga_command("f,3");
    //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
    //vga_puts(buffer);
@@ -1334,6 +1334,7 @@ int main (void)
                         
                      }
                   }
+                 
                   
                   // Ausgang Master
                   
