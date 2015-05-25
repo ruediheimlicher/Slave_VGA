@@ -171,6 +171,8 @@ void setHomeCentralblank(void)
    vga_command("r");
    //delay_ms(1000);
    uint8_t posy=0;
+   uint8_t tab= 48;
+   uint8_t maxy= 99;
    //vga_command(header);       // Create header
    setFeld(1,0,0,100,3,1,"");
    vga_command("f,1");
@@ -179,26 +181,27 @@ void setHomeCentralblank(void)
    char buffer[12] = {};
 
    posy= 3;
-   setFeld(2,0,posy,46,9,1,""); // Heizung
+   setFeld(2,0,posy,tab,9,1,""); // Heizung
    vga_command("f,2");
-   //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
-   //vga_puts(buffer);
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[0])));
+   vga_puts(buffer);
    //newline();
    
    
    posy = 12 ;
-   setFeld(3,0,posy,46,7,1,""); // Werkstatt
+   setFeld(3,0,posy,tab,7,1,""); // Status
    vga_command("f,3");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
-   vga_puts(buffer);
+   //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[1])));
+   //vga_puts(buffer);
    
+   /*
    posy= 19;
    setFeld(4,0,posy,46,6,1,""); // WoZi
    vga_command("f,4");
    //vga_puts("WoZi");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
    vga_puts(buffer);
-   
+   */
    /*
    posy= 25;
    setFeld(5,0,posy,46,4,1,""); // Buero
@@ -224,8 +227,8 @@ void setHomeCentralblank(void)
    //vga_puts("OG");
    */
    posy = 41;
-   setFeld(5,48,posy,51,9,1,""); // Estrich
-   vga_command("f,5");
+   setFeld(4,tab,posy,(maxy-tab),9,1,""); // Estrich
+   vga_command("f,4");
    //strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
    //vga_puts(buffer);
    //vga_leerschlag(2);
@@ -235,9 +238,9 @@ void setHomeCentralblank(void)
    // window,left,top,width,height,border,title
 
    
-   
-   setFeld(6,48,3,51,38,1,"Data"); // Daten
-   vga_command("f,6");
+   posy=3;
+   setFeld(5,tab,3,(maxy-tab),38,1,"Data"); // Daten
+   vga_command("f,5");
   // vga_puts("Data");
    
    
@@ -1219,7 +1222,7 @@ int main (void)
                   
                   
                   
-                  vga_command("f,6");
+                  vga_command("f,5");
                   newline();
                   //if (!(in_startdaten == 0xC0))
                   {
