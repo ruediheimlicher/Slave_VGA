@@ -733,74 +733,89 @@ void setRaumData(void)
    
  }
 
-
-void setEstrich0(uint8_t vorlauf, uint8_t ruecklauf, uint8_t boileru, uint8_t boilerm, uint8_t boilero, uint8_t kollektor, uint8_t status)
+void setDATATASK(void)
 {
+   char in_string[4];
+   int2hexstring(in_startdaten, (char*)&in_string);
+   vga_puts(in_string);
    
-   vga_puts("Vorlauf  :"); // Datapos (0,10)
-   vga_putint_right(vorlauf);
-   vga_leerschlag(2);
-   
-   vga_puts("Boiler O:"); // Datapos (0,10)
-   vga_putint_right(boilero);
-   vga_leerschlag(2);
-   
-   
-   vga_puts("Pumpe  : "); // Datapos (0,10)
-   if (status & 0x08) // Bit 3
+   vga_putch(' ');
+   newline();
+   vga_puts("Startadresse lb: ");
+   int2hexstring(in_lbdaten, (char*)&in_string);
+   vga_puts(in_string);
+   vga_putch(' ');
+   vga_puts("hb: ");
+   int2hexstring(in_hbdaten, (char*)&in_string);
+   vga_puts(in_string);
+   vga_putch(' ');
+   vga_putch(' ');
+   uint8_t i;
+   lcd_gotoxy(0,0);
+   for (i=0;i<2;i++)
    {
-      vga_puts(" ON");
+      //lcd_puthex(inbuffer[i+32]);
+      //lcd_putc(' ');
+      
    }
-   else
+   for (i=0;i<SPI_BUFSIZE;i++)
    {
-      vga_puts("OFF");
+      if (i%16 ==0)
+      {
+         newline();
+      }
+      {
+         vga_putch(' ');
+         char data_string[4];
+         int2hexstring(inbuffer[i], (char*)&data_string);
+         vga_puts(data_string);
+      }
+   }
+   
+   for (i=0;i<3;i++)
+   {
+      //lcd_puthex(inbuffer[i+32]);
+      //lcd_putc(' ');
+      
    }
    
    newline();
-   
-   vga_puts("Ruecklauf:");// Datapos (0,45)
-   vga_putint_right(ruecklauf);
-   vga_leerschlag(2);
-   
-   vga_puts("Boiler M:");// Datapos (0,25)
-   vga_putint_right(boilerm);
-   vga_leerschlag(2);
-   
-   
-   vga_puts("Elektro: ");// Datapos (0,25)
-   if (status & 0x10) // Bit 4
-   {
-      vga_puts(" ON");
-   }
-   else
-   {
-      vga_puts("OFF");
-   }
-   
-   
+   vga_puts("Daten vom  Master");
+   vga_putch(' ');
+   vga_puts("TASK: ");
+   char out_string[4];
+   int2hexstring(out_startdaten, (char*)&out_string);
+   vga_puts(out_string);
+   vga_putch(' ');
    newline();
+   vga_puts("Startadresse lb: ");
+   int2hexstring(out_lbdaten, (char*)&out_string);
+   vga_puts(out_string);
+   vga_putch(' ');
+   vga_puts("hb: ");
+   int2hexstring(out_hbdaten, (char*)&out_string);
+   vga_puts(out_string);
+   vga_putch(' ');
+   vga_putch(' ');
    
-   vga_puts("Kollektor:");// Datapos (0,25)
-   vga_putint_right(kollektor);
-   vga_leerschlag(2);
+   for (i=0;i<SPI_BUFSIZE;i++)
+   {
+      if (i%16 ==0)
+      {
+         newline();
+      }
+      {
+         vga_putch(' ');
+         char data_string[4];
+         int2hexstring(outbuffer[i], (char*)&data_string);
+         vga_puts(data_string);
+      }
+   }
    
-   
-   vga_puts("Boiler U:");// Datapos (0,25)
-   vga_putint_right(boileru);
-   vga_leerschlag(2);
-   
-   
-    vga_puts("Alarm  : ");// Datapos (0,45)
-    if (status & 0x80)
-    {
-    vga_puts(" ON");
-    }
-    else
-    {
-    vga_puts("OFF");
-    }
-   
-}
+} // setDATATASK
+
+
+
 
 
 uint8_t Tastenwahl(uint8_t Tastaturwert)
@@ -1303,16 +1318,33 @@ int main (void)
                      newline();
                      vga_puts("Daten vom Webserver:");
                      vga_putch(' ');
+                     
+                     char stringbuffer[32]={};
+                     char* getString(const char* str)
+                     {
+                        strcpy_P(stringbuffer, (char*)str);
+                        return stringbuffer;
+                     }
+
                      switch (in_startdaten)
                      {
                         case 0xC0:
                         {
-                           vga_puts("DATATASK: ");
+                           char buffer[16]={};
+                           //strcpy_P(buffer,getString(task_C0));
+                           strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_C[0])));
+                           //strcpy_P(buffer, (const char*)pgm_read_word(&(task_C0)));
+                           //strcpy_P(buffer,(PGM_P)pgm_read_word(&task_C0));
+                           vga_puts(buffer);
+
+                      //     vga_puts("DATATASK: ");
 
                         }break;
                            
                            
                      }// switch in_startdate
+                     
+                     
                      char in_string[4];
                      int2hexstring(in_startdaten, (char*)&in_string);
                      vga_puts(in_string);

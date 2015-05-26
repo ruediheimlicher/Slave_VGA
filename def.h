@@ -253,6 +253,62 @@ PGM_P const status_table[] PROGMEM =
 
 };
 
+
+
+// TASK
+const char task_A0[] PROGMEM = "ERR";
+
+const char task_B0[] PROGMEM = "NULL ";
+const char task_B1[] PROGMEM = "STATUS ";
+const char task_B2[] PROGMEM = "STATUSCONFIRM ";
+const char task_B3[] PROGMEM = "B3 ";
+const char task_B4[] PROGMEM = "EEPROMREPORT ";
+const char task_B5[] PROGMEM = "EEPROMCONFIRM ";
+const char task_B6[] PROGMEM = "EEPROMRECEIVE ";
+const char task_B7[] PROGMEM = "EEPROMWRITE ";
+const char task_B8[] PROGMEM = "EEPROMREAD ";
+const char task_B9[] PROGMEM = "EEPROMSEND ";
+const char task_BA[] PROGMEM = "EE_READWOCHEA ";
+const char task_BB[] PROGMEM = "EE_READWOCHEB ";
+const char task_BC[] PROGMEM = "EEPROMREADPWM ";
+const char task_BD[] PROGMEM = "BE ";
+const char task_BE[] PROGMEM = "BE ";
+const char task_BF[] PROGMEM = "RESET ";
+
+
+const char task_C0[] PROGMEM = "DATA ";
+const char task_C1[] PROGMEM = "SOLAR ";
+const char task_C2[] PROGMEM = "C2 ";
+const char task_C7[] PROGMEM = "MASTERERR ";
+
+PGM_P const task_table_B[] PROGMEM =
+{
+   task_B0,
+   task_B1,
+   task_B2,
+   task_B3,
+   task_B4,
+   task_B5,
+   task_B6,
+   task_B7,
+   task_B8,
+   task_B9,
+   task_BA,
+   task_BB,
+   task_BC,
+   task_BD,
+   task_BE,
+   task_BF
+};
+   
+PGM_P const task_table_C[] PROGMEM =
+{
+   task_C0,
+   task_C1,
+   task_C2,
+   task_C7,
+};
+   
 // OSZI
 
  #define OSZIPORT     PORTD
