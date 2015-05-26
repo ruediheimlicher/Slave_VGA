@@ -1318,164 +1318,88 @@ int main (void)
                      newline();
                      vga_puts("Daten vom Webserver:");
                      vga_putch(' ');
-                     
-                     char stringbuffer[32]={};
-                     char* getString(const char* str)
-                     {
-                        strcpy_P(stringbuffer, (char*)str);
-                        return stringbuffer;
-                     }
 
+                     char buffer[32]={};
+                     strcpy_P(buffer,(char*)PSTR("Status: "));
+                     //vga_puts(buffer);
                      switch (in_startdaten)
                      {
                         case 0xC0:
                         {
-                           char buffer[16]={};
+                           
                            //strcpy_P(buffer,getString(task_C0));
                            strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_C[0])));
                            //strcpy_P(buffer, (const char*)pgm_read_word(&(task_C0)));
                            //strcpy_P(buffer,(PGM_P)pgm_read_word(&task_C0));
                            vga_puts(buffer);
-
-                      //     vga_puts("DATATASK: ");
-
+                           
+                           //     vga_puts("DATATASK: ");
+                           
+                        }break;
+                        case 0xB0: // Null
+                        {
+                           
+                        }break;
+                        case 0xB1: // Status
+                        {
+                           strcpy_P(buffer,(char*)PSTR("Status: "));
+                           
+                           vga_putint1(in_hbdaten);
+                           
+                        }break;
+                        case 0xB2: // STATUSCONFIRM
+                        {
+                           
+                        }break;
+                        case 0xB4: // EEPROMREPORT
+                        {
+                           
+                        }break;
+                        case 0xB5: // EEPROMCONFIRM
+                        {
+                           
                         }break;
                            
                            
                      }// switch in_startdate
                      
+                     setDATATASK();
+                     //
+                      // Ausgang Master
                      
-                     char in_string[4];
-                     int2hexstring(in_startdaten, (char*)&in_string);
-                     vga_puts(in_string);
+                     //   Zeit im Titelbalken angeben
+                     //uint8_t stunde = (outbuffer[0] & 0x1F); // Stunde, Bit 0-4
+                     //uint8_t minute = (outbuffer[1] & 0x3F); // Minute, Bit 0-5
+                     uint8_t stunde = (outbuffer[46] ); // Stunde, Bit 0-4
+                     uint8_t minute = (outbuffer[47] ); // Minute, Bit 0-5
                      
-                     vga_putch(' ');
-                     newline();
-                     vga_puts("Startadresse lb: ");
-                     int2hexstring(in_lbdaten, (char*)&in_string);
-                     vga_puts(in_string);
-                     vga_putch(' ');
-                     vga_puts("hb: ");
-                     int2hexstring(in_hbdaten, (char*)&in_string);
-                     vga_puts(in_string);
-                     vga_putch(' ');
-                     vga_putch(' ');
-                     uint8_t i;
-                     lcd_gotoxy(0,0);
-                     for (i=0;i<2;i++)
-                     {
-                        //lcd_puthex(inbuffer[i+32]);
-                        //lcd_putc(' ');
-                        
-                     }
-                     for (i=0;i<SPI_BUFSIZE;i++)
-                     {
-                        if (i%16 ==0)
-                        {
-                           newline();
-                           //if (i)
-                           {
-                              //vga_putch(' ');
-                              //vga_putch(' ');
-                           }
-                        }
-                        {
-                           vga_putch(' ');
-                           char data_string[4];
-                           int2hexstring(inbuffer[i], (char*)&data_string);
-                           vga_puts(data_string);
-                           
-                           
-                        }
-                     }
-                  }
-                  
-                  //lcd_gotoxy(0,1);
-                  //lcd_putc('*');
-                  uint8_t i;
-                  for (i=0;i<3;i++)
-                  {
-                     //lcd_puthex(inbuffer[i+32]);
-                     //lcd_putc(' ');
+                     // Tag ausgeben
                      
+                     vga_command("f,1");
+                     vga_gotoxy(85,0);
+                     vga_command("f,1");
+                     //vga_putint2(outbuffer[45]);
+                     //char buffer[4];
+                     strcpy_P(buffer,(PGM_P)pgm_read_word(&(tag_table[outbuffer[45]-1])));
+                     vga_puts(buffer);
+                     
+                     // Zeit ausgeben
+                     
+                     vga_command("f,1");
+                     vga_gotoxy(90,0);
+                     vga_command("f,1");
+                     vga_putint2(stunde);
+                     vga_putch(':');
+                     vga_putint2(minute);
+                     
+                     vga_command("f,2");
+                     vga_command("p,0,1");
+                     vga_command("f,2");
+                     //   setHeizung(outbuffer[2]/2,outbuffer[3]/2,outbuffer[4],outbuffer[5]);
+                     setRaumData();
+                     
+                     setStatusData();
                   }
-                  
-                  newline();
-                  vga_puts("Daten vom  Master");
-                  vga_putch(' ');
-                  vga_puts("TASK: ");
-                  char out_string[4];
-                  int2hexstring(out_startdaten, (char*)&out_string);
-                  vga_puts(out_string);
-                  vga_putch(' ');
-                  newline();
-                  vga_puts("Startadresse lb: ");
-                  int2hexstring(out_lbdaten, (char*)&out_string);
-                  vga_puts(out_string);
-                  vga_putch(' ');
-                  vga_puts("hb: ");
-                  int2hexstring(out_hbdaten, (char*)&out_string);
-                  vga_puts(out_string);
-                  vga_putch(' ');
-                  vga_putch(' ');
-                  
-                  for (i=0;i<SPI_BUFSIZE;i++)
-                  {
-                     if (i%16 ==0)
-                     {
-                        newline();
-                        //if (i)
-                        {
-                           //vga_putch(' ');
-                           //vga_putch(' ');
-                        }
-                        
-                     }
-                     {
-                        vga_putch(' ');
-                        char data_string[4];
-                        int2hexstring(outbuffer[i], (char*)&data_string);
-                        vga_puts(data_string);
-                        
-                        
-                     }
-                  }
-                 
-                  
-                  // Ausgang Master
-                  
-                  //   Zeit im Titelbalken angeben
-                  //uint8_t stunde = (outbuffer[0] & 0x1F); // Stunde, Bit 0-4
-                  //uint8_t minute = (outbuffer[1] & 0x3F); // Minute, Bit 0-5
-                  uint8_t stunde = (outbuffer[46] ); // Stunde, Bit 0-4
-                  uint8_t minute = (outbuffer[47] ); // Minute, Bit 0-5
-                  
-                  // Tag ausgeben
-                  
-                  vga_command("f,1");
-                  vga_gotoxy(85,0);
-                  vga_command("f,1");
-                  //vga_putint2(outbuffer[45]);
-                  char buffer[4];
-                  strcpy_P(buffer,(PGM_P)pgm_read_word(&(tag_table[outbuffer[45]-1])));
-                  vga_puts(buffer);
-
-                  // Zeit ausgeben
-                  
-                  vga_command("f,1");
-                  vga_gotoxy(90,0);
-                  vga_command("f,1");
-                  vga_putint2(stunde);
-                  vga_putch(':');
-                  vga_putint2(minute);
-
-                  vga_command("f,2");
-                  vga_command("p,0,1");
-                  vga_command("f,2");
-               //   setHeizung(outbuffer[2]/2,outbuffer[3]/2,outbuffer[4],outbuffer[5]);
-                  setRaumData();
-                  
-                  setStatusData();
  /*
                   vga_command("f,2");
   
