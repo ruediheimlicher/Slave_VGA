@@ -230,8 +230,28 @@ PGM_P const ES_table[] PROGMEM =
    ES_8
 };
 
+// Status
+const char Status[] PROGMEM = "Status";
 
+const char St_0[] PROGMEM = "EE  : ";
+const char St_1[] PROGMEM = "Read :";
+const char St_2[] PROGMEM = "Write:";
+const char St_3[] PROGMEM = "Err  :";
+const char St_4[] PROGMEM = "Raum:";
+const char St_5[] PROGMEM = "R: ";
+const char St_6[] PROGMEM = "W: ";
 
+PGM_P const status_table[] PROGMEM =
+{
+   St_0,
+   St_1,
+   St_2,
+   St_3,
+   St_4,
+   St_5,
+   St_6,
+
+};
 
 // OSZI
 

@@ -274,7 +274,11 @@ void vga_putint1(uint8_t zahl)
 
 void vga_puthex(uint8_t hexzahl)
 {
-   
+   char hexstring[4];
+  
+   int2hexstring(hexzahl, (char*)&hexstring);
+   vga_puts(hexstring);
+
 }
 
 void setFeld(uint8_t number, uint8_t left, uint8_t top, uint8_t width, uint8_t height, uint8_t border, char* title)

@@ -16,7 +16,13 @@
 #define TAB1   17
 #define TAB2   32
 
-#define HEIZUNG_Y    1
+#define TAB10   0
+#define TAB11   6
+#define TAB12   15
+#define TAB13   24
+
+
+#define HEIZUNG_Y    0
 #define WERKSTATT_Y  5
 #define WOZI_Y       9
 #define BUERO_Y      13
