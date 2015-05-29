@@ -449,8 +449,10 @@ void setWoZi(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
-   vga_putint_right(outbuffer[3]/2);
-   
+   char tempbuffer[8]={};
+   vga_tempbis99(slavestatus[WOZI][3]/2,tempbuffer);
+   vga_puts(tempbuffer);
+  
    
    //Zeile 2
    // Radiator
@@ -503,7 +505,9 @@ void setBuero(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
-   vga_putint_right(outbuffer[3]/2);
+   char tempbuffer[8]={};
+   vga_tempbis99(slavestatus[BUERO][3]/2,tempbuffer);
+   vga_puts(tempbuffer);
    
    
    //Zeile 2
@@ -558,7 +562,9 @@ void setLabor(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
-   vga_putint_right(outbuffer[3]/2);
+   char tempbuffer[8]={};
+   vga_tempbis99(slavestatus[LABOR][3]/2,tempbuffer);
+   vga_puts(tempbuffer);
    
    
    //Zeile 2
@@ -611,8 +617,12 @@ void setOG1(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
-   vga_putint_right(outbuffer[3]/2);
-   
+   //vga_putint_right(outbuffer[3]/2);
+   //vga_tempbis99(slavestatus[OG1][3]/2-0x20);
+   char tempbuffer[8]={};
+   vga_tempbis99(slavestatus[OG1][3]/2,tempbuffer);
+   vga_puts(tempbuffer);
+
    
    //Zeile 2
    // Radiator
@@ -664,7 +674,9 @@ void setOG2(void)
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
-   vga_putint_right(outbuffer[3]/2);
+   char tempbuffer[8]={};
+   vga_tempbis99(slavestatus[OG2][3]/2,tempbuffer);
+   vga_puts(tempbuffer);
    
    
    //Zeile 2
@@ -889,12 +901,17 @@ void setStatusData(void)
    pos_y++;
    vga_gotoxy(TAB10,pos_y);
    vga_command("f,3");
-   vga_puthex(outbuffer[SLAVESTATUSRAUM]);
+   strcpy_P(buffer,(char*)PSTR("Raum:"));
+   vga_puts(buffer);
+
+   vga_putint1(outbuffer[SLAVESTATUSRAUM]);
+   vga_gotoxy(TAB12,pos_y);
+   vga_command("f,3");
+
    uint8_t i=0;
    for (i=0;i<4;i++)
    {
-      vga_putch(' ');
-      vga_putint(SLAVESTATUSPOS+i);
+
       vga_putch(' ');
       vga_puthex(outbuffer[SLAVESTATUSPOS+i]);
    }
@@ -2263,6 +2280,16 @@ int main (void)
                   spistatus |= (1<<SUCCESS_BIT); // Bit fuer vollstaendige und korrekte  Uebertragung setzen
                   lcd_gotoxy(19,0);
                   lcd_putc(' ');
+                  lcd_gotoxy(16,0);
+                  lcd_putc(' ');
+                  lcd_puthex(outbuffer[SLAVESTATUSRAUM]);
+                  uint8_t i=0;
+                  for (i=0;i<4;i++)
+                  {
+                     slavestatus[outbuffer[SLAVESTATUSRAUM]][i] = outbuffer[SLAVESTATUSPOS+i];
+                              
+                  }
+                  
                   //lcd_clr_line(3);
                   //lcd_gotoxy(0,1);
                   //lcd_puthex(loopCounterSPI++);
@@ -2275,6 +2302,8 @@ int main (void)
                   }
                   spistatus |= (1<<SPI_SHIFT_IN_OK_BIT);
                }
+               
+               
                
                /*
                 else

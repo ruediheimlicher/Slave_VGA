@@ -1,4 +1,12 @@
 
+#define HEIZUNG		0
+#define WERKSTATT		1
+#define WOZI			2
+#define BUERO			3
+#define LABOR			4
+#define OG1				5
+#define OG2				6
+#define ESTRICH		7
 
 
 // UART
