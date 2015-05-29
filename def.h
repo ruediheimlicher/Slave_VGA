@@ -113,14 +113,14 @@ PGM_P const tag_table[] PROGMEM =
 };
 
 
-const char string_0[] PROGMEM = "Heizung";
-const char string_1[] PROGMEM = "Werkstatt";
-const char string_2[] PROGMEM = "WoZi";
-const char string_3[] PROGMEM = "Buero";
-const char string_4[] PROGMEM = "Labor";
+const char string_0[] PROGMEM = "HEIZUNG";
+const char string_1[] PROGMEM = "WERKSTATT";
+const char string_2[] PROGMEM = "WOZI";
+const char string_3[] PROGMEM = "BUERO";
+const char string_4[] PROGMEM = "LABOR";
 const char string_5[] PROGMEM = "OG 1";
 const char string_6[] PROGMEM = "OG 2";
-const char string_7[] PROGMEM = "Estrich";
+const char string_7[] PROGMEM = "ESTRICH";
 
 PGM_P const raum_table[] PROGMEM =
 {
@@ -139,7 +139,7 @@ const char heizung_1[] PROGMEM = "Ruecklauf:";
 const char heizung_2[] PROGMEM = "Aussen   :";
 const char heizung_3[] PROGMEM = "Code:";
 const char heizung_4[] PROGMEM = "Brenner:";
-const char heizung_5[] PROGMEM = "Pos";
+const char heizung_5[] PROGMEM = "Pos :";
 const char heizung_6[] PROGMEM = "Rinne  :";
 
 
@@ -192,17 +192,17 @@ PGM_P const WS_table[] PROGMEM =
    WS_5
 };
 
-const char WOZI_0[] PROGMEM = "Lampe:";
-const char WOZI_1[] PROGMEM = "Innen:";
-const char WOZI_2[] PROGMEM = "Rad :";
-const char WOZI_3[] PROGMEM = "ABC  :";
+const char RAUM_0[] PROGMEM = "Lampe:";
+const char RAUM_1[] PROGMEM = "Innen:";
+const char RAUM_2[] PROGMEM = "Rad  :";
+const char RAUM_3[] PROGMEM = "ABC  :";
 
-PGM_P const WOZI_table[] PROGMEM =
+PGM_P const RAUM_table[] PROGMEM =
 {
-   WOZI_0,
-   WOZI_1,
-   WOZI_2,
-   WOZI_3
+   RAUM_0,
+   RAUM_1,
+   RAUM_2,
+   RAUM_3
 };
 
 
@@ -236,7 +236,7 @@ const char Status[] PROGMEM = "Status";
 const char St_0[] PROGMEM = "EE  : ";
 const char St_1[] PROGMEM = "Read :";
 const char St_2[] PROGMEM = "Write:";
-const char St_3[] PROGMEM = "Err  :";
+const char St_3[] PROGMEM = "EEProm:";
 const char St_4[] PROGMEM = "Raum:";
 const char St_5[] PROGMEM = "R: ";
 const char St_6[] PROGMEM = "W: ";
@@ -253,7 +253,31 @@ PGM_P const status_table[] PROGMEM =
 
 };
 
+// Error
+const char Err_0[] PROGMEM = "TWI:";
+const char Err_1[] PROGMEM = "call :";
+const char Err_2[] PROGMEM = "reply:";
+const char Err_3[] PROGMEM = "count: ";
 
+
+const char Err_4[] PROGMEM = "SPI: ";
+const char Err_5[] PROGMEM = "o_st :";
+const char Err_6[] PROGMEM = "i_end:";
+const char Err_7[] PROGMEM = "b_cnt:";
+
+
+PGM_P const error_table[] PROGMEM =
+{
+   Err_0,
+   Err_1,
+   Err_2,
+   Err_3,
+   Err_4,
+   Err_5,
+   Err_6,
+   Err_7
+
+};
 
 // TASK
 const char task_A0[] PROGMEM = "ERR";
@@ -341,6 +365,11 @@ uint16_t Tastencount=0;
 uint16_t Tastenprellen=0x01F;
 
 volatile uint8_t uartstatus=0;
+
+// Array fuer Daten von Slaves (4 bytes pro Slave
+#define SLAVESTATUSRAUM 18 // Raumnummer
+#define SLAVESTATUSPOS  19 // Beginn Raumdaten: 4 bytes
+volatile uint8_t slavestatus[8][4];
 uint16_t startcounter=0x00;
 
 #define CURSORX   2

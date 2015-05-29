@@ -20,11 +20,12 @@
 #define TAB11   6
 #define TAB12   15
 #define TAB13   24
+#define TAB14   33
 
 
 #define HEIZUNG_Y    0
 #define WERKSTATT_Y  5
-#define WOZI_Y       9
+#define RAUM_Y       9
 #define BUERO_Y      13
 #define LABOR_Y      17
 #define OG1_Y       21

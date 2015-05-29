@@ -422,7 +422,7 @@ void setWoZi(void)
    char buffer[12]={};
    // WoZi
    vga_command("f,2");
-   uint8_t pos_y = WOZI_Y;
+   uint8_t pos_y = RAUM_Y;
    vga_gotoxy(TAB0,pos_y);
    vga_command("f,2");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[2])));
@@ -433,7 +433,7 @@ void setWoZi(void)
    pos_y++;
    vga_gotoxy(TAB0,pos_y);
    vga_command("f,2");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[0])));
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[0])));
    vga_puts(buffer);
    if (outbuffer[5] & 0x04)
    {
@@ -445,10 +445,9 @@ void setWoZi(void)
    }
    
   // Innen
-   
    vga_gotoxy(TAB2,pos_y);
    vga_command("f,2");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[1])));
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
    vga_puts(buffer);
    vga_putint_right(outbuffer[3]/2);
    
@@ -458,15 +457,15 @@ void setWoZi(void)
    pos_y++;
    vga_gotoxy(TAB0,pos_y);
    vga_command("f,2");
-   strcpy_P(buffer,(PGM_P)pgm_read_word(&(WOZI_table[2])));
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[2])));
    vga_puts(buffer);
    if (outbuffer[5] & 0x04)
    {
-      vga_puts("  OK");
+      vga_puts("OFF");
    }
    else
    {
-      vga_puts("Alarm");
+      vga_puts(" ON");
    }
    
    
@@ -483,6 +482,48 @@ void setBuero(void)
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[3])));
    vga_puts(buffer);
 
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+   
+   // Innen
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
+   
+   
+   //Zeile 2
+   // Radiator
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[2])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+   
+
+
 }
 
 void setLabor(void)
@@ -496,6 +537,46 @@ void setLabor(void)
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[4])));
    vga_puts(buffer);
    
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+   
+   // Innen
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
+   
+   
+   //Zeile 2
+   // Radiator
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[2])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+
 }
 
 void setOG1(void)
@@ -509,6 +590,46 @@ void setOG1(void)
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[5])));
    vga_puts(buffer);
    
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+   
+   // Innen
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
+   
+   
+   //Zeile 2
+   // Radiator
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[2])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+
 }
 
 void setOG2(void)
@@ -522,6 +643,46 @@ void setOG2(void)
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(raum_table[6])));
    vga_puts(buffer);
    
+   // Zeile 1
+   // Lampe
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[0])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+   
+   // Innen
+   vga_gotoxy(TAB2,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[1])));
+   vga_puts(buffer);
+   vga_putint_right(outbuffer[3]/2);
+   
+   
+   //Zeile 2
+   // Radiator
+   pos_y++;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,2");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(RAUM_table[2])));
+   vga_puts(buffer);
+   if (outbuffer[5] & 0x04)
+   {
+      vga_puts("OFF");
+   }
+   else
+   {
+      vga_puts(" ON");
+   }
+
 }
 
 void setEstrich(void)
@@ -638,6 +799,7 @@ void setEstrich(void)
 
 }
 
+
 void setStatusData(void)
 {
    /*
@@ -655,41 +817,51 @@ void setStatusData(void)
    uint8_t pos_y = 0;
    vga_gotoxy(TAB0,pos_y);
    vga_command("f,3");
+   
+   strcpy_P(buffer,(char*)PSTR("Status: "));
+   vga_puts(buffer);
+   
+   // TASK
+   vga_gotoxy(TAB12,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(char*)PSTR("TASK: "));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[42], (char*)&data_string);
+   vga_puts(data_string);
 
-   //strcpy_P(buffer,pgm_read_word(&(Status[0])));
-   //PSTR("Testnachricht")
-   vga_puts("Status: ");
+
    pos_y++;
    // EE
    vga_gotoxy(TAB10,pos_y);
    vga_command("f,3");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[0])));
    vga_puts(buffer);
+   
    // Read Fehler
    vga_gotoxy(TAB11,pos_y);
    vga_command("f,3");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[1])));
    vga_puts(buffer);
-   int2hexstring(outbuffer[40], (char*)&data_string);
+   int2hexstring(outbuffer[24], (char*)&data_string);
    vga_puts(data_string);
-
+   
    // Write fehler
    vga_gotoxy(TAB12,pos_y);
    vga_command("f,3");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[2])));
    vga_puts(buffer);
-   int2hexstring(outbuffer[41], (char*)&data_string);
+   int2hexstring(outbuffer[25], (char*)&data_string);
    vga_puts(data_string);
-
-     // Err Fehler
+   
+   // Err Fehler
    vga_gotoxy(TAB13,pos_y);
    vga_command("f,3");
    strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[3])));
    vga_puts(buffer);
-   int2hexstring(outbuffer[42], (char*)&data_string);
+   int2hexstring(outbuffer[26], (char*)&data_string);
    vga_puts(data_string);
-
-  
+   
+   
    
    // Belegung
    pos_y++;
@@ -714,8 +886,108 @@ void setStatusData(void)
    //int2hexstring(outbuffer[44], (char*)&data_string);
    //vga_puts(data_string);
    //vga_puts((char*)outbuffer[44]);
+   pos_y++;
+   vga_gotoxy(TAB10,pos_y);
+   vga_command("f,3");
+   vga_puthex(outbuffer[SLAVESTATUSRAUM]);
+   uint8_t i=0;
+   for (i=0;i<4;i++)
+   {
+      vga_putch(' ');
+      vga_putint(SLAVESTATUSPOS+i);
+      vga_putch(' ');
+      vga_puthex(outbuffer[SLAVESTATUSPOS+i]);
+   }
+   
+   
+}
+void setErrorData(void)
+{
+ 
+   char buffer[12]={};
+   char data_string[4];
+   vga_command("f,4");
+   uint8_t pos_y = 0;
+   vga_gotoxy(TAB0,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(char*)PSTR("Error: "));
+   vga_puts(buffer);
+   
+   // Error-Bits
+   vga_gotoxy(TAB12,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(char*)PSTR("ERR: "));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[39], (char*)&data_string);
+   vga_puts(data_string);
 
+   // Alarm-Bits
+   vga_gotoxy(TAB13,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(char*)PSTR("ALARM: "));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[40], (char*)&data_string);
+   vga_puts(data_string);
 
+   
+   pos_y++;
+   // TWI:
+   vga_gotoxy(TAB10,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[0])));
+   vga_puts(buffer);
+   
+   // Call count
+   vga_gotoxy(TAB11,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[1])));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[26], (char*)&data_string);
+   vga_puts(data_string);
+   
+   // Reply count
+   vga_gotoxy(TAB12,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[2])));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[27], (char*)&data_string);
+   vga_puts(data_string);
+
+   pos_y++;
+   // SPI:
+   vga_gotoxy(TAB10,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[4])));
+   vga_puts(buffer);
+   
+   // out_startdaten
+   vga_gotoxy(TAB11,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[5])));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[31], (char*)&data_string);
+   vga_puts(data_string);
+   
+   // in_enddaten
+   vga_gotoxy(TAB12,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[6])));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[32], (char*)&data_string);
+   vga_puts(data_string);
+
+   
+   // bytecount
+   vga_gotoxy(TAB13,pos_y);
+   vga_command("f,4");
+   strcpy_P(buffer,(PGM_P)pgm_read_word(&(error_table[7])));
+   vga_puts(buffer);
+   int2hexstring(outbuffer[33], (char*)&data_string);
+   vga_puts(data_string);
+
+   
+   
+ 
 }
 
 
@@ -733,60 +1005,196 @@ void setRaumData(void)
    
  }
 
-void setDATATASK(void)
+void setSPI_DATA(void)
 {
+   uint8_t i=0;
    char in_string[4];
-   int2hexstring(in_startdaten, (char*)&in_string);
-   vga_puts(in_string);
-   
-   vga_putch(' ');
    newline();
-   vga_puts("Startadresse lb: ");
-   int2hexstring(in_lbdaten, (char*)&in_string);
-   vga_puts(in_string);
-   vga_putch(' ');
-   vga_puts("hb: ");
-   int2hexstring(in_hbdaten, (char*)&in_string);
-   vga_puts(in_string);
-   vga_putch(' ');
-   vga_putch(' ');
-   uint8_t i;
-   lcd_gotoxy(0,0);
-   for (i=0;i<2;i++)
-   {
-      //lcd_puthex(inbuffer[i+32]);
-      //lcd_putc(' ');
-      
-   }
-   for (i=0;i<SPI_BUFSIZE;i++)
-   {
-      if (i%16 ==0)
-      {
-         newline();
-      }
-      {
-         vga_putch(' ');
-         char data_string[4];
-         int2hexstring(inbuffer[i], (char*)&data_string);
-         vga_puts(data_string);
-      }
-   }
+   char buffer[32]={};
    
-   for (i=0;i<3;i++)
+   strcpy_P(buffer,(char*)PSTR("Daten vom Webserver: "));
+   vga_puts(buffer);
+   vga_putch(' ');
+   
+   //strcpy_P(buffer,(char*)PSTR("Status: "));
+   //vga_puts(buffer);
+   switch (in_startdaten)
    {
-      //lcd_puthex(inbuffer[i+32]);
-      //lcd_putc(' ');
-      
-   }
+      case 0xB0: // Null
+      {
+         
+      }break;
+      case 0xB1: // Status
+      {
+         strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_B[1])));
+         vga_puts(buffer);
+         if (in_hbdaten == 1)
+         {
+            strcpy_P(buffer,(char*)PSTR("TWI ON"));
+            
+         }
+         else if (in_hbdaten == 0)
+         {
+            strcpy_P(buffer,(char*)PSTR("TWI OFF"));
+            
+         }
+         else
+         {
+            strcpy_P(buffer,(char*)PSTR("XXX"));
+         }
+         
+         vga_puts(buffer);
+         
+         vga_putch(' ');
+         //vga_puthex(in_startdaten);
+         //         int2hexstring(in_startdaten, (char*)&in_string);
+         //         vga_puts(in_string);
+         //         newline();
+         //vga_putint1(in_hbdaten);
+         
+      }break;
+      case 0xB2: // STATUSCONFIRM
+      {
+         strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_B[2])));
+         vga_puts(buffer);
+         
+      }break;
+      case 0xB4: // EEPROMREPORT
+      {
+         
+      }break;
+      case 0xB5: // EEPROMCONFIRM
+      {
+         
+      }break;
+         
+         
+      case 0xC0:
+      {
+         
+         
+         strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_C[0]))); //
+         vga_puts(buffer);
+         
+         //     vga_puts("DATATASK: ");
+         // Daten ausgeben
+         vga_putch(' ');
+         int2hexstring(in_startdaten, (char*)&in_string);
+         vga_puts(in_string);
+         
+         vga_putch(' ');
+         newline();
+         vga_puts("Startadresse lb: ");
+         int2hexstring(in_lbdaten, (char*)&in_string);
+         vga_puts(in_string);
+         vga_putch(' ');
+         vga_puts("hb: ");
+         int2hexstring(in_hbdaten, (char*)&in_string);
+         vga_puts(in_string);
+         vga_putch(' ');
+         vga_putch(' ');
+         lcd_gotoxy(0,0);
+         for (i=0;i<2;i++)
+         {
+            //lcd_puthex(inbuffer[i+32]);
+            //lcd_putc(' ');
+            
+         }
+         for (i=0;i<SPI_BUFSIZE;i++)
+         {
+            if (i%16 ==0)
+            {
+               newline();
+            }
+            {
+               vga_putch(' ');
+               char data_string[4];
+               int2hexstring(inbuffer[i], (char*)&data_string);
+               vga_puts(data_string);
+            }
+         }
+         
+         
+         for (i=0;i<3;i++)
+         {
+            //lcd_puthex(inbuffer[i+32]);
+            //lcd_putc(' ');
+            
+         }
+         
+         
+         
+         
+      }break;
+         
+         
+   }// switch in_startdaten
    
    newline();
    vga_puts("Daten vom  Master");
    vga_putch(' ');
-   vga_puts("TASK: ");
+   //vga_puts("TASK: ");
    char out_string[4];
    int2hexstring(out_startdaten, (char*)&out_string);
-   vga_puts(out_string);
-   vga_putch(' ');
+   
+   switch (out_startdaten)
+   {
+      case 0xC0: // DATA
+      {
+         // Task anzeigen
+         strcpy_P(buffer,(PGM_P)pgm_read_word(&(task_table_C[0]))); //
+         vga_puts(buffer);
+         vga_putch(' ');
+         vga_puts(out_string);
+         
+
+         newline();
+         strcpy_P(buffer,(char*)PSTR("HOME:  "));
+         vga_puts(buffer);
+         for (i=0;i<8;i++)
+         {
+            vga_putch(' ');
+            char data_string[4];
+            int2hexstring(outbuffer[i], (char*)&data_string);
+            vga_puts(data_string);
+            
+         }
+         
+         
+         newline();
+         strcpy_P(buffer,(char*)PSTR("SOLAR: "));
+         vga_puts(buffer);
+         for (i=9;i<17;i++)
+         {
+            vga_putch(' ');
+            char data_string[4];
+            int2hexstring(outbuffer[i], (char*)&data_string);
+            vga_puts(data_string);
+            
+         }
+         
+         newline();
+         strcpy_P(buffer,(char*)PSTR("ALARM: "));
+         vga_puts(buffer);
+         for (i=23;i<32;i++)
+         {
+            vga_putch(' ');
+            char data_string[4];
+            int2hexstring(outbuffer[i], (char*)&data_string);
+            vga_puts(data_string);
+            
+         }
+         
+         
+         
+
+      }break;
+   }// switch out_startdaten
+   
+   // Dump ausgeben
+   newline();
+   strcpy_P(buffer,(char*)PSTR("DUMP: "));
+   vga_puts(buffer);
    newline();
    vga_puts("Startadresse lb: ");
    int2hexstring(out_lbdaten, (char*)&out_string);
@@ -796,7 +1204,7 @@ void setDATATASK(void)
    int2hexstring(out_hbdaten, (char*)&out_string);
    vga_puts(out_string);
    vga_putch(' ');
-   vga_putch(' ');
+   
    
    for (i=0;i<SPI_BUFSIZE;i++)
    {
@@ -811,8 +1219,12 @@ void setDATATASK(void)
          vga_puts(data_string);
       }
    }
+
    
-} // setDATATASK
+  
+   
+   
+} // end  setSPI_DATA
 
 
 
@@ -1311,16 +1723,16 @@ int main (void)
                   
                   
                   
-                  vga_command("f,5");
-                  newline();
                   //if (!(in_startdaten == 0xC0))
                   {
+                     char buffer[32]={};
+                     /*
                      newline();
                      vga_puts("Daten vom Webserver:");
                      vga_putch(' ');
 
-                     char buffer[32]={};
-                     strcpy_P(buffer,(char*)PSTR("Status: "));
+                     
+                     //strcpy_P(buffer,(char*)PSTR("Status: "));
                      //vga_puts(buffer);
                      switch (in_startdaten)
                      {
@@ -1343,7 +1755,7 @@ int main (void)
                         case 0xB1: // Status
                         {
                            strcpy_P(buffer,(char*)PSTR("Status: "));
-                           
+                           vga_puts(buffer);
                            vga_putint1(in_hbdaten);
                            
                         }break;
@@ -1362,8 +1774,11 @@ int main (void)
                            
                            
                      }// switch in_startdate
-                     
-                     setDATATASK();
+                     */
+                //     vga_command("f,5");
+                //     newline();
+
+                //     setSPI_DATA();
                      //
                       // Ausgang Master
                      
@@ -1399,6 +1814,8 @@ int main (void)
                      setRaumData();
                      
                      setStatusData();
+                     
+                     setErrorData();
                   }
  /*
                   vga_command("f,2");
@@ -1836,7 +2253,7 @@ int main (void)
             
             if (ByteCounter == SPI_BUFSIZE-1) // Uebertragung war vollstaendig
             {
-               lcd_gotoxy(19,1);
+               lcd_gotoxy(18,1);
                lcd_putc('f');
                
                //if (out_startdaten + in_enddaten==0xFF)
@@ -1881,11 +2298,17 @@ int main (void)
                 }
                 */
                
+               
+               
+               vga_command("f,5");
+               newline();
+
+               setSPI_DATA();
             }
             else
             {
-               //lcd_gotoxy(18,3);
-               //lcd_putc('e');
+               lcd_gotoxy(18,1);
+               lcd_putc('e');
                
                spistatus &= ~(1<<SUCCESS_BIT); //  Uebertragung unvollstaendig, Bit loeschen
                //lcd_clr_line(0);
