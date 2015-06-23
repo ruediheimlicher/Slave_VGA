@@ -42,6 +42,8 @@ volatile uint16_t                prellcounter=0; // counter fuer Prellen, in tim
 volatile uint8_t                 incounter=0; // counter fuer ankommende Daten. Steuert renew
 
 volatile uint8_t callbackstatus=0;
+volatile uint8_t lastcallbackstatus=0;
+volatile uint8_t callbackcounter=0;
 
 void delay_ms(unsigned int ms)
 /* delay for a minimum of <ms> */
@@ -390,7 +392,9 @@ void setHeizung(uint8_t renew)
    vga_gotoxy(TAB101,pos_y);
    vga_command("f,2");
    char tempbuffer[12] = {};
-   vga_tempbis99(outbuffer[4]/2-0x20,tempbuffer);
+   //vga_tempbis99(outbuffer[4]/2-0x20,tempbuffer);
+   vga_tempbis99(outbuffer[4]/2,tempbuffer);
+   
    vga_puts(tempbuffer);
    
    // Rinne
@@ -1151,6 +1155,7 @@ void setStatusData(void)
    
    // Belegung
    pos_y++;
+   // Belegung Read
    if (renew == 1)
    {
       vga_command("f,3");
@@ -1158,7 +1163,6 @@ void setStatusData(void)
       vga_command("f,3");
       strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[4])));
       vga_puts(buffer);
-      // Belegung Read
       vga_command("f,3");
       vga_gotoxy(TAB11,pos_y);
       vga_command("f,3");
@@ -1213,27 +1217,108 @@ void setStatusData(void)
    // callbackstatus
    
    pos_y++;
+   
    if (renew == 1)
    {
       vga_command("f,3");
       vga_gotoxy(TAB10,pos_y);
       vga_command("f,3");
-      strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[7])));
+      strcpy_P(buffer,(char*)PSTR("Callback:"));
       vga_puts(buffer);
-      // Belegung Read
+    }
+   uint8_t newcallbackstatus = inbuffer[39];
+   if ((callbackstatus == 0) && newcallbackstatus) // start
+   {
+      callbackstatus = newcallbackstatus;
+   }
+  
+   if (newcallbackstatus == lastcallbackstatus) // zweimal gleicher wert
+   {
+      //callbackstatus = newcallbackstatus;
+      callbackcounter++;
+      if (callbackcounter == 2)
+      {
+         callbackstatus = newcallbackstatus;
+         //lastcallbackstatus = newcallbackstatus
+      }
+      
+      
+   }
+   else
+   {
+      callbackcounter = 0; // Count von vorn beginnen
+      lastcallbackstatus = newcallbackstatus; // neuen wert behalten
+   }
+   
+   vga_command("f,3");
+   vga_gotoxy(TAB11+4,pos_y);
+   vga_command("f,3");
+   vga_puthex(newcallbackstatus);
+ 
+   // homecallback
+   if (renew == 1)
+   {
       vga_command("f,3");
-      vga_gotoxy(TAB11,pos_y);
+      vga_gotoxy(TAB12,pos_y);
       vga_command("f,3");
-      strcpy_P(buffer,(PGM_P)pgm_read_word(&(status_table[1])));
-      strcpy_P(buffer,(char*)PSTR("code: "));
+      strcpy_P(buffer,(char*)PSTR("home :"));
       vga_puts(buffer);
    }
    vga_command("f,3");
-   vga_gotoxy(TAB10+6,pos_y);
+   vga_gotoxy(TAB12+5,pos_y);
    vga_command("f,3");
-   vga_puthex(inbuffer[39]);
-   vga_putch(' ');
-   vga_puthex(outbuffer[15]);
+  if (callbackstatus & (1<<HOMECALLBACK))
+   {
+      vga_puts(" OK");
+   }
+   else
+   {
+      vga_puts("ERR");
+   }
+   
+   // solarcallback
+   if (renew == 1)
+   {
+      vga_command("f,3");
+      vga_gotoxy(TAB13,pos_y);
+      vga_command("f,3");
+      strcpy_P(buffer,(char*)PSTR("solar:"));
+      vga_puts(buffer);
+   }
+   vga_command("f,3");
+   vga_gotoxy(TAB13+5,pos_y);
+   vga_command("f,3");
+   if (callbackstatus & (1<<SOLARCALLBACK))
+   {
+      vga_puts(" OK");
+   }
+   else
+   {
+      vga_puts("ERR");
+   }
+ 
+   // alarmcallback
+   if (renew == 1)
+   {
+      vga_command("f,3");
+      vga_gotoxy(TAB14,pos_y);
+      vga_command("f,3");
+      strcpy_P(buffer,(char*)PSTR("alarm:"));
+      vga_puts(buffer);
+   }
+   vga_command("f,3");
+   vga_gotoxy(TAB14+5,pos_y);
+   vga_command("f,3");
+   if (callbackstatus & (1<<SOLARCALLBACK))
+   {
+      vga_puts(" OK");
+   }
+   else
+   {
+      vga_puts("ERR");
+   }
+
+  
    
    
 }
