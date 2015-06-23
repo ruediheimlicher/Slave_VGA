@@ -16,11 +16,28 @@
 #define TAB1   17
 #define TAB2   32
 
+// Status
 #define TAB10   0
 #define TAB11   6
 #define TAB12   15
 #define TAB13   24
 #define TAB14   33
+
+// raumdata
+#define TAB100   0
+#define TAB101   11
+#define TAB110   18
+#define TAB111   25
+#define TAB120   32
+#define TAB121   40
+
+#define TAB200   0
+#define TAB201   7
+#define TAB210   18
+#define TAB211   25
+#define TAB220   32
+#define TAB221   40
+
 
 
 #define HEIZUNG_Y    0

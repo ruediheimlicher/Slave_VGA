@@ -225,6 +225,7 @@ void vga_putint2(uint8_t zahl)
    {
       zahl %= 100;
    }
+   
    string[2]='\0';                       // String Terminator
    for(i=1; i>=0; i--)
    {
@@ -280,6 +281,49 @@ void vga_puthex(uint8_t hexzahl)
    vga_puts(hexstring);
 
 }
+
+void vga_put_zeit(uint8_t minuten, uint8_t stunden)
+{
+   //							13:15
+   int8_t i;
+   if (stunden< 10)
+   {
+      //	lcd_putc(' ');
+   }
+   
+   char zeitString[6];
+   zeitString[5]='\0';
+   
+   //	Minuten einsetzen
+   zeitString[4]=(minuten % 10) +'0';	//hinterste Stelle
+   if (minuten>9)
+   {
+      minuten/=10;
+      zeitString[3]=(minuten % 10) +'0';
+   }
+   else
+   {
+      zeitString[3]='0';
+   }
+   
+   zeitString[2]=':';
+   
+   //	Stunden einsetzen
+   zeitString[1]=(stunden % 10) +'0';
+   if (stunden>9)
+   {
+      stunden/=10;
+      zeitString[0]=(stunden % 10) +'0';
+   }
+   else
+   {
+      zeitString[0]='0';
+   }
+   
+   
+   vga_puts(zeitString);
+}
+
 
 void setFeld(uint8_t number, uint8_t left, uint8_t top, uint8_t width, uint8_t height, uint8_t border, char* title)
 {

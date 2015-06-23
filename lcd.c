@@ -379,19 +379,27 @@ lcd_dec_cursor(uint8_t spaces)
  *************************************************************************/
 void lcd_gotoxy(uint8_t x, uint8_t y)
 {
-   if ( y==0 )
+   switch (y)
    {
-      
-      lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE1+x);
-      lcd_send_cmd();
-   }
-   else
-   {
-      
-      lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE2+x);
-      lcd_send_cmd();
-      
-   }
+      case 0:
+         lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE1+x);
+         lcd_send_cmd();
+         break;
+      case 1:
+         lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE2+x);
+         lcd_send_cmd();
+         break;
+      case 2:
+         lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE3+x);
+         lcd_send_cmd();
+         break;
+      case 3:
+         lcd_load_byte((1<<LCD_DDRAM)+LCD_START_LINE4+x);
+         lcd_send_cmd();
+         break;
+         
+         
+   }//switch
    
 }/* lcd_gotoxy */
 

@@ -8,6 +8,26 @@
 #define OG2				6
 #define ESTRICH		7
 
+#define EEPROMREPORTTASK	0xB4	// Daten von EEPROM an HomeServer schicken
+#define EEPROMCONFIRMTASK	0xB5  // Quittung an HomeCentral senden
+#define EEPROMRECEIVETASK	0xB6	// Start-Adresse von EEPROM empfangen
+#define EEPROMWRITETASK		0xB7	// auf EEPROM schreiben
+#define EEPROMREADTASK		0xB8	// von EEPROM lesen
+#define EEPROMSENDTASK		0xB9	// von EEPROM lesen
+
+#define PWMREADTASK        0xBA  // PWM-Daten vom EEPROM lesen und an Zielraum schicken (synchronisierung)
+#define PWMREADTASK        0xBA  // PWM-Daten vom EEPROM lesen und an Zielraum schicken (synchronisierung)
+
+#define DATATASK				0xC0	// Normale Loop im Webserver
+
+
+#define HOMECALLBACK       0
+#define SOLARCALLBACK       1
+#define ALARMCALLBACK       2
+#define EXPCALLBACK        3
+#define PINGCALLBACK       7
+
+
 
 // UART
 #define UART_PORT		PORTD
@@ -217,9 +237,9 @@ PGM_P const RAUM_table[] PROGMEM =
 
 const char ES_0[] PROGMEM = "Vorlauf  :";
 const char ES_1[] PROGMEM = "Ruecklauf:";
-const char ES_2[] PROGMEM = "Boiler U:";
-const char ES_3[] PROGMEM = "Boiler M:";
-const char ES_4[] PROGMEM = "Boiler O:";
+const char ES_2[] PROGMEM = "Bo U:";
+const char ES_3[] PROGMEM = "Bo M:";
+const char ES_4[] PROGMEM = "Bo O:";
 const char ES_5[] PROGMEM = "Kollektor:";
 const char ES_6[] PROGMEM = "Pumpe  :";
 const char ES_7[] PROGMEM = "Elektro:";
@@ -241,13 +261,15 @@ PGM_P const ES_table[] PROGMEM =
 // Status
 const char Status[] PROGMEM = "Status";
 
-const char St_0[] PROGMEM = "EE  : ";
+const char St_0[] PROGMEM = "Err : ";
 const char St_1[] PROGMEM = "Read :";
 const char St_2[] PROGMEM = "Write:";
-const char St_3[] PROGMEM = "EEProm:";
+const char St_3[] PROGMEM = "EE   :";
 const char St_4[] PROGMEM = "Raum:";
 const char St_5[] PROGMEM = "R: ";
 const char St_6[] PROGMEM = "W: ";
+const char St_7[] PROGMEM = "CB: ";
+
 
 PGM_P const status_table[] PROGMEM =
 {
@@ -258,6 +280,7 @@ PGM_P const status_table[] PROGMEM =
    St_4,
    St_5,
    St_6,
+   St_7
 
 };
 
