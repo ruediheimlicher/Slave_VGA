@@ -363,22 +363,59 @@ void setHeizung(uint8_t renew)
       strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[5])));
       vga_puts(buffer);
    }
+   uint8_t mode = outbuffer[5] & 0x30;
+   mode >>=4;
+
    vga_gotoxy(TAB111,pos_y);
    vga_command("f,2");
-   vga_putint_right(outbuffer[0]%4);
+   vga_putint_right(mode);
    //vga_leerschlag(3);
    
    // Beschreibung
+   /*
+    pos-table
+    const char pos_0[] PROGMEM = "OFF";
+    const char pos_1[] PROGMEM = "F/-";
+    const char pos_2[] PROGMEM = "F/R";
+    const char pos_3[] PROGMEM = "R/R";
+    const char pos_4[] PROGMEM = "V/V";
+    const char pos_5[] PROGMEM = "Hnd";
+
+    */
+   /*
    if (renew == HEIZUNG)
    {
       vga_gotoxy(TAB120,pos_y);
       vga_command("f,2");
-      strcpy_P(buffer,(PGM_P)pgm_read_word(&(pos_table[outbuffer[0]%4])));
+      //strcpy_P(buffer,(PGM_P)pgm_read_word(&(pos_table[outbuffer[0]%4])));
+      strcpy_P(buffer,(char*)PSTR("Mode: "));
       vga_puts(buffer);
+
    }
-   vga_gotoxy(TAB121,pos_y);
+    */
+   vga_gotoxy(TAB120,pos_y);
    vga_command("f,2");
-   
+   switch (mode)
+   {
+      case 0:
+      {
+         strcpy_P(buffer,(char*)PSTR("Red/Red"));
+      }break;
+      case 1:
+      {
+         strcpy_P(buffer,(char*)PSTR("Full/OFF"));
+      }break;
+      case 2:
+      {
+         strcpy_P(buffer,(char*)PSTR("Full/Red"));
+      }break;
+      case 3:
+      {
+         strcpy_P(buffer,(char*)PSTR("Full/Full"));
+      }break;
+   }
+   vga_puts(buffer);
+   //vga_puthex(mode);
    
    // dritte Zeile
    pos_y++;
@@ -386,7 +423,7 @@ void setHeizung(uint8_t renew)
    {
       vga_gotoxy(TAB100,pos_y);
       vga_command("f,2");
-            strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[2])));
+      strcpy_P(buffer,(PGM_P)pgm_read_word(&(heizung_table[2])));
       vga_puts(buffer);
    }
    vga_gotoxy(TAB101,pos_y);
@@ -1502,9 +1539,11 @@ void setSPI_DATA(void)
          vga_puts(buffer);
          vga_putch(' ');
          vga_puthex(in_startdaten);
-         vga_putch(' ');
+         newline();
+         vga_puts("lb: ");
          vga_puthex(in_hbdaten);
          vga_putch(' ');
+         vga_puts("hb: ");
          vga_puthex(in_lbdaten);
          newline();
          for (i=0;i<8;i++)
@@ -1532,7 +1571,6 @@ void setSPI_DATA(void)
          vga_putch(' ');
          int2hexstring(in_startdaten, (char*)&in_string);
          vga_puts(in_string);
-         
          vga_putch(' ');
          newline();
          vga_puts("lb: ");
