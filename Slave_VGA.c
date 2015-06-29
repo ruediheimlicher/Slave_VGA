@@ -1267,6 +1267,8 @@ void setStatusData(void)
    if ((callbackstatus == 0) && newcallbackstatus) // start
    {
       callbackstatus = newcallbackstatus;
+      lastcallbackstatus = newcallbackstatus; // neuen wert behalten
+      callbackcounter = 1; // Start Anzeige einleiten
    }
   
    if (newcallbackstatus == lastcallbackstatus) // zweimal gleicher wert
@@ -1281,7 +1283,7 @@ void setStatusData(void)
       
       
    }
-   else
+   else // neuer status, merken
    {
       callbackcounter = 0; // Count von vorn beginnen
       lastcallbackstatus = newcallbackstatus; // neuen wert behalten
